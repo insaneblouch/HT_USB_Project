@@ -3,10 +3,9 @@
 #ifndef HT66FB550_TYPEDEF_H
 #define HT66FB550_TYPEDEF_H
 
-enum {
-	HT66FB550_6Mhz,
-	HT66FB550_16Mhz,	
-};
+
+#define	HT66FB550_6Mhz	1
+#define	HT66FB550_16Mhz	2
 
 
 #endif

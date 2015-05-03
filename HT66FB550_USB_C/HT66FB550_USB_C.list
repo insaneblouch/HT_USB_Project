@@ -18,52 +18,70 @@
 				_main:
 0002	2008	call    _HT66FB550_MCU_Init
 				;9		HT66FB550_IO_INIT();
-0003	20F3	call    _HT66FB550_IO_INIT
+0003	20FA	call    _HT66FB550_IO_INIT
 				;10		//_acer0 = 0;
 				;11		//_acer1 = 0;
 				;12		//_pbc = 0;
-				;13		loop:
-				;14	
-				;15		_pb1=1;
+				;13		
+				;14		loop:
+				;15	
+				;16		_pb1=1;
 				_L2:
 0004	30A2	set     PB1
-				;16		_pb1=0;
+				;17		_pb1=0;
 0005	34A2	clr     PB1
 0006	2804	jmp     _L2
 0007	2807	jmp     $
-				;17		goto loop;
-				;18	}
+				;18		goto loop;
+				;19	}
 				;file C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_Common\HT66FB550_MCU.c
 				;1	#include "HT66FB550.h"
-				;2	
-				;3	/*  HT66FB550 INIT
-				;4	    step:
-				;5	        1.cancel WDT
-				;6	        2.setting PLL(configure by config.h)
-				;7	    Notification: This function is also cancel USB-related config
-				;8	*/
-				;9	
-				;10	#if (HT66FB550_6Mhz==HT66FB550_MCU_Speed)
-				;11	void HT66FB550_MCU_Init(void)
-				;12	{
+				;2	#include "HT66FB550_typedef.h"
+				;3	#include "Config.h"
+				;4	
+				;5	/*  HT66FB550 INIT
+				;6	    step:
+				;7	        1.setting PLL(configure by config.h)
+				;8	        2.cancel WDT
+				;9	    Notification: This function is also cancel USB-related config
+				;10	*/
+				;11	//#ifndef HT66FB550_MCU_Speed
+				;12		//#define HT66FB550_MCU_Speed HT66FB550_16Mhz
+				;13	//#endif
+				;14	
+				;15	#if HT66FB550_MCU_Speed == HT66FB550_6Mhz
+				;16	void HT66FB550_MCU_Init(void)
+				;17	{
+				;18		//1.setting PLL source(6Mhz) -> PLL -> Fh=16Mhz -> Fsys=16Mhz (It seem like little error in here, try later)
+				;19	    _ucc    = 0x60;         //sysclk=6MHz,Fsys16MHz=1
+				;20	    _usc    = 0x20;         //pll=on
+				;21	    _smod   = 0xE1;         //Fsys_clock_divider=none;direct come for Fh
+				;22	    //2.cancel WDT
+				;23	    _wdtc   = 0xAC;
+				;24	}
+				;25	#elif HT66FB550_MCU_Speed == HT66FB550_16Mhz
+				;26	void HT66FB550_MCU_Init(void)
+				;27	{
+				;28	    //1.setting PLL source(6Mhz) -> PLL -> Fh=16Mhz -> Fsys=16Mhz (It seem like little error in here, try later)
+				;29	    _ucc    = 0x60;         //sysclk=6MHz,Fsys16MHz=1
 				_HT66FB550_MCU_Init:
 				_HT66FB550_MCU_Init:
 				@dummy .SECTION 'CODE'
-0008	0003	ret
-				;13		
-				;14	}
-				;15	#elif (HT66FB550_16Mhz==HT66FB550_MCU_Speed)
-				;16	void HT66FB550_MCU_Init(void)
-				;17	{
-				;18		//1.cancel WDT
-				;19	    _wdtc   = 0xAC;
-				;20	    //2.setting PLL source(6Mhz) -> PLL -> Fh=16Mhz -> Fsys=16Mhz (It seem like little error in here, try later)
-				;21	    _ucc    = 0x60;         //sysclk=6MHz,Fsys16MHz=1
-				;22	    _usc    = 0x20;         //pll=on
-				;23	    _smod   = 0xE1;         //Fsys_clock_divider=none;direct come for Fh
-				;24	}
-				;25	
-				;26	#endif
+0008	0F60	mov     a, 60H
+0009	00E8	mov     UCC, a
+				;30	    _usc    = 0x00;         //pll=on
+000A	1F66	clr     USC
+				;31	    _smod   = 0xE1;         //Fsys_clock_divider=none;direct come for Fh
+000B	0FE1	mov     a, E1H
+000C	008B	mov     SMOD, a
+				;32	    //2.cancel WDT
+				;33	    _wdtc   = 0xAC;
+000D	0FAC	mov     a, ACH
+000E	008E	mov     WDTC, a
+000F	0003	ret
+				;34	}
+				;35	
+				;36	#endif
 				;file C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_Common\HT66FB550_IO.c
 				;1	#include "HT66FB550.h"
 				;2	#include "HT66FB550_MCU.h"
@@ -82,61 +100,61 @@
 				;15		HT66FB550_IO_DIR(HT66FB550_MCU_IO_PA,HT66FB550_MCU_IO_PINALL,HT66FB550_MCU_IO_OUTPUT);
 				_HT66FB550_IO_INIT:
 				_HT66FB550_IO_INIT:
-00F3	5F13	clr     data
-00F4	5F92	set     pin
-00F5	0F00	mov     a, 0H
-00F6	2009	call    _HT66FB550_IO_DIR
+00FA	5F13	clr     data
+00FB	5F92	set     pin
+00FC	0F00	mov     a, 0H
+00FD	2010	call    _HT66FB550_IO_DIR
 				;16		HT66FB550_IO_DIR(HT66FB550_MCU_IO_PB,HT66FB550_MCU_IO_PINALL,HT66FB550_MCU_IO_OUTPUT);
-00F7	5F13	clr     data
-00F8	5F92	set     pin
-00F9	0F01	mov     a, 1H
-00FA	2009	call    _HT66FB550_IO_DIR
+00FE	5F13	clr     data
+00FF	5F92	set     pin
+0100	0F01	mov     a, 1H
+0101	2010	call    _HT66FB550_IO_DIR
 				;17		HT66FB550_IO_DIR(HT66FB550_MCU_IO_PC,HT66FB550_MCU_IO_PINALL,HT66FB550_MCU_IO_OUTPUT);
-00FB	5F13	clr     data
-00FC	5F92	set     pin
-00FD	0F02	mov     a, 2H
-00FE	2009	call    _HT66FB550_IO_DIR
+0102	5F13	clr     data
+0103	5F92	set     pin
+0104	0F02	mov     a, 2H
+0105	2010	call    _HT66FB550_IO_DIR
 				;18		HT66FB550_IO_DIR(HT66FB550_MCU_IO_PD,HT66FB550_MCU_IO_PINALL,HT66FB550_MCU_IO_OUTPUT);
-00FF	5F13	clr     data
-0100	5F92	set     pin
-0101	0F03	mov     a, 3H
-0102	2009	call    _HT66FB550_IO_DIR
+0106	5F13	clr     data
+0107	5F92	set     pin
+0108	0F03	mov     a, 3H
+0109	2010	call    _HT66FB550_IO_DIR
 				;19		HT66FB550_IO_DIR(HT66FB550_MCU_IO_PE,HT66FB550_MCU_IO_PINALL,HT66FB550_MCU_IO_OUTPUT);
-0103	5F13	clr     data
-0104	5F92	set     pin
-0105	0F04	mov     a, 4H
-0106	2009	call    _HT66FB550_IO_DIR
+010A	5F13	clr     data
+010B	5F92	set     pin
+010C	0F04	mov     a, 4H
+010D	2010	call    _HT66FB550_IO_DIR
 				;20		HT66FB550_IO_Data(HT66FB550_MCU_IO_PA,HT66FB550_MCU_IO_PINALL,0x00);
-0107	5F13	clr     data
-0108	5F92	set     pin
-0109	0F00	mov     a, 0H
-010A	207E	call    _HT66FB550_IO_Data
+010E	5F13	clr     data
+010F	5F92	set     pin
+0110	0F00	mov     a, 0H
+0111	2085	call    _HT66FB550_IO_Data
 				;21		HT66FB550_IO_Data(HT66FB550_MCU_IO_PB,HT66FB550_MCU_IO_PINALL,0x00);
-010B	5F13	clr     data
-010C	5F92	set     pin
-010D	0F01	mov     a, 1H
-010E	207E	call    _HT66FB550_IO_Data
+0112	5F13	clr     data
+0113	5F92	set     pin
+0114	0F01	mov     a, 1H
+0115	2085	call    _HT66FB550_IO_Data
 				;22		HT66FB550_IO_Data(HT66FB550_MCU_IO_PC,HT66FB550_MCU_IO_PINALL,0x00);
-010F	5F13	clr     data
-0110	5F92	set     pin
-0111	0F02	mov     a, 2H
-0112	207E	call    _HT66FB550_IO_Data
+0116	5F13	clr     data
+0117	5F92	set     pin
+0118	0F02	mov     a, 2H
+0119	2085	call    _HT66FB550_IO_Data
 				;23		HT66FB550_IO_Data(HT66FB550_MCU_IO_PD,HT66FB550_MCU_IO_PINALL,0x00);
-0113	5F13	clr     data
-0114	5F92	set     pin
-0115	0F03	mov     a, 3H
-0116	207E	call    _HT66FB550_IO_Data
+011A	5F13	clr     data
+011B	5F92	set     pin
+011C	0F03	mov     a, 3H
+011D	2085	call    _HT66FB550_IO_Data
 				;24		HT66FB550_IO_Data(HT66FB550_MCU_IO_PE,HT66FB550_MCU_IO_PINALL,0x00);
-0117	5F13	clr     data
-0118	5F92	set     pin
-0119	0F04	mov     a, 4H
-011A	207E	call    _HT66FB550_IO_Data
+011E	5F13	clr     data
+011F	5F92	set     pin
+0120	0F04	mov     a, 4H
+0121	2085	call    _HT66FB550_IO_Data
 				;25	    //set ADC pin to IO pin here
 				;26	    _acer0 = 0;
-011B	1F33	clr     ACER0
+0122	1F33	clr     ACER0
 				;27	    _acer1 = 0;
-011C	1F34	clr     ACER1
-011D	0003	ret
+0123	1F34	clr     ACER1
+0124	0003	ret
 				;28	    
 				;29	}
 				;30	
@@ -144,43 +162,43 @@
 				;32	{
 				_HT66FB550_IO_DIR:
 				_HT66FB550_IO_DIR:
-0009	408F	mov     ra, a
+0010	408F	mov     ra, a
 				;33		char filter=0x01;
 				;34		filter = filter << pin;
-000A	0F01	mov     a, 1H
-000B	4090	mov     rb, a
-000C	5F11	clr     rc
-000D	5412	inca    pin[0]
-000E	2812	jmp     L0012
-				L000F:
-000F	340A	clr     C
-0010	5A90	rlc     rb
-0011	5A91	rlc     rc
-				L0012:
-0012	1785	sdz     ACC
-0013	280F	jmp     L000F
-0014	4710	mov     a, rb
-0015	4095	mov     filter[0], a
+0011	0F01	mov     a, 1H
+0012	4090	mov     rb, a
+0013	5F11	clr     rc
+0014	5412	inca    pin[0]
+0015	2819	jmp     L0019
+				L0016:
+0016	340A	clr     C
+0017	5A90	rlc     rb
+0018	5A91	rlc     rc
+				L0019:
+0019	1785	sdz     ACC
+001A	2816	jmp     L0016
+001B	4710	mov     a, rb
+001C	4095	mov     filter[0], a
 				;35		switch(port)
-0016	470F	mov     a, ra
-0017	0A00	sub     a, 0H
-0018	3D0A	sz      Z
-0019	2829	jmp     L0029
-001A	0A01	sub     a, 1H
-001B	3D0A	sz      Z
-001C	283A	jmp     L003A
 001D	470F	mov     a, ra
-001E	0A02	sub     a, 2H
+001E	0A00	sub     a, 0H
 001F	3D0A	sz      Z
-0020	284B	jmp     L004B
+0020	2830	jmp     L0030
 0021	0A01	sub     a, 1H
 0022	3D0A	sz      Z
-0023	285C	jmp     L005C
+0023	2841	jmp     L0041
 0024	470F	mov     a, ra
-0025	0A04	sub     a, 4H
-0026	390A	snz     Z
-0027	287D	jmp     L007D
-0028	286D	jmp     L006D
+0025	0A02	sub     a, 2H
+0026	3D0A	sz      Z
+0027	2852	jmp     L0052
+0028	0A01	sub     a, 1H
+0029	3D0A	sz      Z
+002A	2863	jmp     L0063
+002B	470F	mov     a, ra
+002C	0A04	sub     a, 4H
+002D	390A	snz     Z
+002E	2884	jmp     L0084
+002F	2874	jmp     L0074
 				;36		{
 				;37			case HT66FB550_MCU_IO_PA:
 				;38				switch(pin)
@@ -190,31 +208,31 @@
 				;42						break;
 				;43					default:
 				;44						port_A_config = port_A_config & (!filter);
-				L0029:
-0029	0F01	mov     a, 1H
-002A	408F	mov     ra, a
-002B	5095	sz      filter[0]
-002C	282E	jmp     L002E
-002D	282F	jmp     L002F
-				L002E:
-002E	5F0F	clr     ra
-				L002F:
-002F	470E	mov     a, port_A_config[0]
-0030	468F	andm    a, ra
+				L0030:
+0030	0F01	mov     a, 1H
+0031	408F	mov     ra, a
+0032	5095	sz      filter[0]
+0033	2835	jmp     L0035
+0034	2836	jmp     L0036
+				L0035:
+0035	5F0F	clr     ra
+				L0036:
+0036	470E	mov     a, port_A_config[0]
+0037	468F	andm    a, ra
 				;45						port_A_config = port_A_config | (filter & direction);
-0031	4713	mov     a, direction[0]
-0032	4690	andm    a, rb
-0033	470F	mov     a, ra
-0034	4590	orm     a, rb
-0035	4710	mov     a, rb
-0036	408E	mov     port_A_config[0], a
+0038	4713	mov     a, direction[0]
+0039	4690	andm    a, rb
+003A	470F	mov     a, ra
+003B	4590	orm     a, rb
+003C	4710	mov     a, rb
+003D	408E	mov     port_A_config[0], a
 				;46						break;
 				;47				}
 				;48				_pac = port_A_config;
-0037	4710	mov     a, rb
-0038	009B	mov     PAC, a
+003E	4710	mov     a, rb
+003F	009B	mov     PAC, a
 				;49				break;
-0039	287D	jmp     L007D
+0040	2884	jmp     L0084
 				;50			case HT66FB550_MCU_IO_PB:
 				;51				switch(pin)
 				;52				{
@@ -223,31 +241,31 @@
 				;55						break;
 				;56					default:
 				;57						port_B_config = port_B_config & (!filter);
-				L003A:
-003A	0F01	mov     a, 1H
-003B	408F	mov     ra, a
-003C	5095	sz      filter[0]
-003D	283F	jmp     L003F
-003E	2840	jmp     L0040
-				L003F:
-003F	5F0F	clr     ra
-				L0040:
-0040	470D	mov     a, port_B_config[0]
-0041	468F	andm    a, ra
+				L0041:
+0041	0F01	mov     a, 1H
+0042	408F	mov     ra, a
+0043	5095	sz      filter[0]
+0044	2846	jmp     L0046
+0045	2847	jmp     L0047
+				L0046:
+0046	5F0F	clr     ra
+				L0047:
+0047	470D	mov     a, port_B_config[0]
+0048	468F	andm    a, ra
 				;58						port_B_config = port_B_config | (filter & direction);
-0042	4713	mov     a, direction[0]
-0043	4690	andm    a, rb
-0044	470F	mov     a, ra
-0045	4590	orm     a, rb
-0046	4710	mov     a, rb
-0047	408D	mov     port_B_config[0], a
+0049	4713	mov     a, direction[0]
+004A	4690	andm    a, rb
+004B	470F	mov     a, ra
+004C	4590	orm     a, rb
+004D	4710	mov     a, rb
+004E	408D	mov     port_B_config[0], a
 				;59						break;
 				;60				}
 				;61				_pbc = port_B_config;
-0048	4710	mov     a, rb
-0049	00A3	mov     PBC, a
+004F	4710	mov     a, rb
+0050	00A3	mov     PBC, a
 				;62				break;
-004A	287D	jmp     L007D
+0051	2884	jmp     L0084
 				;63			case HT66FB550_MCU_IO_PC:
 				;64				switch(pin)
 				;65				{
@@ -256,31 +274,31 @@
 				;68						break;
 				;69					default:
 				;70						port_C_config = port_C_config & (!filter);
-				L004B:
-004B	0F01	mov     a, 1H
-004C	408F	mov     ra, a
-004D	5095	sz      filter[0]
-004E	2850	jmp     L0050
-004F	2851	jmp     L0051
-				L0050:
-0050	5F0F	clr     ra
-				L0051:
-0051	470C	mov     a, port_C_config[0]
-0052	468F	andm    a, ra
+				L0052:
+0052	0F01	mov     a, 1H
+0053	408F	mov     ra, a
+0054	5095	sz      filter[0]
+0055	2857	jmp     L0057
+0056	2858	jmp     L0058
+				L0057:
+0057	5F0F	clr     ra
+				L0058:
+0058	470C	mov     a, port_C_config[0]
+0059	468F	andm    a, ra
 				;71						port_C_config = port_C_config | (filter & direction);
-0053	4713	mov     a, direction[0]
-0054	4690	andm    a, rb
-0055	470F	mov     a, ra
-0056	4590	orm     a, rb
-0057	4710	mov     a, rb
-0058	408C	mov     port_C_config[0], a
+005A	4713	mov     a, direction[0]
+005B	4690	andm    a, rb
+005C	470F	mov     a, ra
+005D	4590	orm     a, rb
+005E	4710	mov     a, rb
+005F	408C	mov     port_C_config[0], a
 				;72						break;
 				;73				}
 				;74				_pcc = port_C_config;
-0059	4710	mov     a, rb
-005A	00A5	mov     PCC, a
+0060	4710	mov     a, rb
+0061	00A5	mov     PCC, a
 				;75				break;
-005B	287D	jmp     L007D
+0062	2884	jmp     L0084
 				;76			case HT66FB550_MCU_IO_PD:
 				;77				switch(pin)
 				;78				{
@@ -289,31 +307,31 @@
 				;81						break;
 				;82					default:
 				;83						port_D_config = port_D_config & (!filter);
-				L005C:
-005C	0F01	mov     a, 1H
-005D	408F	mov     ra, a
-005E	5095	sz      filter[0]
-005F	2861	jmp     L0061
-0060	2862	jmp     L0062
-				L0061:
-0061	5F0F	clr     ra
-				L0062:
-0062	470B	mov     a, port_D_config[0]
-0063	468F	andm    a, ra
+				L0063:
+0063	0F01	mov     a, 1H
+0064	408F	mov     ra, a
+0065	5095	sz      filter[0]
+0066	2868	jmp     L0068
+0067	2869	jmp     L0069
+				L0068:
+0068	5F0F	clr     ra
+				L0069:
+0069	470B	mov     a, port_D_config[0]
+006A	468F	andm    a, ra
 				;84						port_D_config = port_D_config | (filter & direction);
-0064	4713	mov     a, direction[0]
-0065	4690	andm    a, rb
-0066	470F	mov     a, ra
-0067	4590	orm     a, rb
-0068	4710	mov     a, rb
-0069	408B	mov     port_D_config[0], a
+006B	4713	mov     a, direction[0]
+006C	4690	andm    a, rb
+006D	470F	mov     a, ra
+006E	4590	orm     a, rb
+006F	4710	mov     a, rb
+0070	408B	mov     port_D_config[0], a
 				;85						break;
 				;86				}
 				;87				_pdc = port_D_config;
-006A	4710	mov     a, rb
-006B	00A7	mov     PDC, a
+0071	4710	mov     a, rb
+0072	00A7	mov     PDC, a
 				;88				break;
-006C	287D	jmp     L007D
+0073	2884	jmp     L0084
 				;89			case HT66FB550_MCU_IO_PE:
 				;90				switch(pin)
 				;91				{
@@ -322,31 +340,31 @@
 				;94						break;
 				;95					default:
 				;96						port_E_config = port_E_config & (!filter);
-				L006D:
-006D	0F01	mov     a, 1H
-006E	408F	mov     ra, a
-006F	5095	sz      filter[0]
-0070	2872	jmp     L0072
-0071	2873	jmp     L0073
-				L0072:
-0072	5F0F	clr     ra
-				L0073:
-0073	470A	mov     a, port_E_config[0]
-0074	468F	andm    a, ra
+				L0074:
+0074	0F01	mov     a, 1H
+0075	408F	mov     ra, a
+0076	5095	sz      filter[0]
+0077	2879	jmp     L0079
+0078	287A	jmp     L007A
+				L0079:
+0079	5F0F	clr     ra
+				L007A:
+007A	470A	mov     a, port_E_config[0]
+007B	468F	andm    a, ra
 				;97						port_E_config = port_E_config | (filter & direction);
-0075	4713	mov     a, direction[0]
-0076	4690	andm    a, rb
-0077	470F	mov     a, ra
-0078	4590	orm     a, rb
-0079	4710	mov     a, rb
-007A	408A	mov     port_E_config[0], a
+007C	4713	mov     a, direction[0]
+007D	4690	andm    a, rb
+007E	470F	mov     a, ra
+007F	4590	orm     a, rb
+0080	4710	mov     a, rb
+0081	408A	mov     port_E_config[0], a
 				;98						break;
 				;99				}
 				;100				_pec = port_E_config;
-007B	4710	mov     a, rb
-007C	00A9	mov     PEC, a
-				L007D:
-007D	0003	ret
+0082	4710	mov     a, rb
+0083	00A9	mov     PEC, a
+				L0084:
+0084	0003	ret
 				;101				break;
 				;102		}	
 				;103	}
@@ -355,43 +373,43 @@
 				;106	{
 				_HT66FB550_IO_Data:
 				_HT66FB550_IO_Data:
-007E	408F	mov     ra, a
+0085	408F	mov     ra, a
 				;107		char filter=0x01;
 				;108		filter = filter << pin;
-007F	0F01	mov     a, 1H
-0080	4090	mov     rb, a
-0081	5F11	clr     rc
-0082	5412	inca    pin[0]
-0083	2887	jmp     L0087
-				L0084:
-0084	340A	clr     C
-0085	5A90	rlc     rb
-0086	5A91	rlc     rc
-				L0087:
-0087	1785	sdz     ACC
-0088	2884	jmp     L0084
-0089	4710	mov     a, rb
-008A	4095	mov     filter[0], a
+0086	0F01	mov     a, 1H
+0087	4090	mov     rb, a
+0088	5F11	clr     rc
+0089	5412	inca    pin[0]
+008A	288E	jmp     L008E
+				L008B:
+008B	340A	clr     C
+008C	5A90	rlc     rb
+008D	5A91	rlc     rc
+				L008E:
+008E	1785	sdz     ACC
+008F	288B	jmp     L008B
+0090	4710	mov     a, rb
+0091	4095	mov     filter[0], a
 				;109		switch(port)
-008B	470F	mov     a, ra
-008C	0A00	sub     a, 0H
-008D	3D0A	sz      Z
-008E	289E	jmp     L009E
-008F	0A01	sub     a, 1H
-0090	3D0A	sz      Z
-0091	28AF	jmp     L00AF
 0092	470F	mov     a, ra
-0093	0A02	sub     a, 2H
+0093	0A00	sub     a, 0H
 0094	3D0A	sz      Z
-0095	28C0	jmp     L00C0
+0095	28A5	jmp     L00A5
 0096	0A01	sub     a, 1H
 0097	3D0A	sz      Z
-0098	28D1	jmp     L00D1
+0098	28B6	jmp     L00B6
 0099	470F	mov     a, ra
-009A	0A04	sub     a, 4H
-009B	390A	snz     Z
-009C	28F2	jmp     L00F2
-009D	28E2	jmp     L00E2
+009A	0A02	sub     a, 2H
+009B	3D0A	sz      Z
+009C	28C7	jmp     L00C7
+009D	0A01	sub     a, 1H
+009E	3D0A	sz      Z
+009F	28D8	jmp     L00D8
+00A0	470F	mov     a, ra
+00A1	0A04	sub     a, 4H
+00A2	390A	snz     Z
+00A3	28F9	jmp     L00F9
+00A4	28E9	jmp     L00E9
 				;110		{
 				;111			case HT66FB550_MCU_IO_PA:
 				;112				switch(pin)
@@ -401,31 +419,31 @@
 				;116						break;
 				;117					default:
 				;118						port_A_data = port_A_data & (!filter);
-				L009E:
-009E	0F01	mov     a, 1H
-009F	408F	mov     ra, a
-00A0	5095	sz      filter[0]
-00A1	28A3	jmp     L00A3
-00A2	28A4	jmp     L00A4
-				L00A3:
-00A3	5F0F	clr     ra
-				L00A4:
-00A4	4709	mov     a, port_A_data[0]
-00A5	468F	andm    a, ra
+				L00A5:
+00A5	0F01	mov     a, 1H
+00A6	408F	mov     ra, a
+00A7	5095	sz      filter[0]
+00A8	28AA	jmp     L00AA
+00A9	28AB	jmp     L00AB
+				L00AA:
+00AA	5F0F	clr     ra
+				L00AB:
+00AB	4709	mov     a, port_A_data[0]
+00AC	468F	andm    a, ra
 				;119						port_A_data = port_A_data | (filter & data);
-00A6	4713	mov     a, data[0]
-00A7	4690	andm    a, rb
-00A8	470F	mov     a, ra
-00A9	4590	orm     a, rb
-00AA	4710	mov     a, rb
-00AB	4089	mov     port_A_data[0], a
+00AD	4713	mov     a, data[0]
+00AE	4690	andm    a, rb
+00AF	470F	mov     a, ra
+00B0	4590	orm     a, rb
+00B1	4710	mov     a, rb
+00B2	4089	mov     port_A_data[0], a
 				;120						break;
 				;121				}
 				;122				_pa = port_A_data;
-00AC	4710	mov     a, rb
-00AD	009A	mov     PA, a
+00B3	4710	mov     a, rb
+00B4	009A	mov     PA, a
 				;123				break;
-00AE	28F2	jmp     L00F2
+00B5	28F9	jmp     L00F9
 				;124			case HT66FB550_MCU_IO_PB:
 				;125				switch(pin)
 				;126				{
@@ -434,31 +452,31 @@
 				;129						break;
 				;130					default:
 				;131						port_B_data = port_B_data & (!filter);
-				L00AF:
-00AF	0F01	mov     a, 1H
-00B0	408F	mov     ra, a
-00B1	5095	sz      filter[0]
-00B2	28B4	jmp     L00B4
-00B3	28B5	jmp     L00B5
-				L00B4:
-00B4	5F0F	clr     ra
-				L00B5:
-00B5	4708	mov     a, port_B_data[0]
-00B6	468F	andm    a, ra
+				L00B6:
+00B6	0F01	mov     a, 1H
+00B7	408F	mov     ra, a
+00B8	5095	sz      filter[0]
+00B9	28BB	jmp     L00BB
+00BA	28BC	jmp     L00BC
+				L00BB:
+00BB	5F0F	clr     ra
+				L00BC:
+00BC	4708	mov     a, port_B_data[0]
+00BD	468F	andm    a, ra
 				;132						port_B_data = port_B_data | (filter & data);
-00B7	4713	mov     a, data[0]
-00B8	4690	andm    a, rb
-00B9	470F	mov     a, ra
-00BA	4590	orm     a, rb
-00BB	4710	mov     a, rb
-00BC	4088	mov     port_B_data[0], a
+00BE	4713	mov     a, data[0]
+00BF	4690	andm    a, rb
+00C0	470F	mov     a, ra
+00C1	4590	orm     a, rb
+00C2	4710	mov     a, rb
+00C3	4088	mov     port_B_data[0], a
 				;133						break;
 				;134				}
 				;135				_pb = port_B_data;
-00BD	4710	mov     a, rb
-00BE	00A2	mov     PB, a
+00C4	4710	mov     a, rb
+00C5	00A2	mov     PB, a
 				;136				break;
-00BF	28F2	jmp     L00F2
+00C6	28F9	jmp     L00F9
 				;137			case HT66FB550_MCU_IO_PC:
 				;138				switch(pin)
 				;139				{
@@ -467,31 +485,31 @@
 				;142						break;
 				;143					default:
 				;144						port_C_data = port_C_data & (!filter);
-				L00C0:
-00C0	0F01	mov     a, 1H
-00C1	408F	mov     ra, a
-00C2	5095	sz      filter[0]
-00C3	28C5	jmp     L00C5
-00C4	28C6	jmp     L00C6
-				L00C5:
-00C5	5F0F	clr     ra
-				L00C6:
-00C6	4707	mov     a, port_C_data[0]
-00C7	468F	andm    a, ra
+				L00C7:
+00C7	0F01	mov     a, 1H
+00C8	408F	mov     ra, a
+00C9	5095	sz      filter[0]
+00CA	28CC	jmp     L00CC
+00CB	28CD	jmp     L00CD
+				L00CC:
+00CC	5F0F	clr     ra
+				L00CD:
+00CD	4707	mov     a, port_C_data[0]
+00CE	468F	andm    a, ra
 				;145						port_C_data = port_C_data | (filter & data);
-00C8	4713	mov     a, data[0]
-00C9	4690	andm    a, rb
-00CA	470F	mov     a, ra
-00CB	4590	orm     a, rb
-00CC	4710	mov     a, rb
-00CD	4087	mov     port_C_data[0], a
+00CF	4713	mov     a, data[0]
+00D0	4690	andm    a, rb
+00D1	470F	mov     a, ra
+00D2	4590	orm     a, rb
+00D3	4710	mov     a, rb
+00D4	4087	mov     port_C_data[0], a
 				;146						break;
 				;147				}
 				;148				_pc = port_C_data;
-00CE	4710	mov     a, rb
-00CF	00A4	mov     PC, a
+00D5	4710	mov     a, rb
+00D6	00A4	mov     PC, a
 				;149				break;
-00D0	28F2	jmp     L00F2
+00D7	28F9	jmp     L00F9
 				;150			case HT66FB550_MCU_IO_PD:
 				;151				switch(pin)
 				;152				{
@@ -500,31 +518,31 @@
 				;155						break;
 				;156					default:
 				;157						port_D_data = port_D_data & (!filter);
-				L00D1:
-00D1	0F01	mov     a, 1H
-00D2	408F	mov     ra, a
-00D3	5095	sz      filter[0]
-00D4	28D6	jmp     L00D6
-00D5	28D7	jmp     L00D7
-				L00D6:
-00D6	5F0F	clr     ra
-				L00D7:
-00D7	4706	mov     a, port_D_data[0]
-00D8	468F	andm    a, ra
+				L00D8:
+00D8	0F01	mov     a, 1H
+00D9	408F	mov     ra, a
+00DA	5095	sz      filter[0]
+00DB	28DD	jmp     L00DD
+00DC	28DE	jmp     L00DE
+				L00DD:
+00DD	5F0F	clr     ra
+				L00DE:
+00DE	4706	mov     a, port_D_data[0]
+00DF	468F	andm    a, ra
 				;158						port_D_data = port_D_data | (filter & data);
-00D9	4713	mov     a, data[0]
-00DA	4690	andm    a, rb
-00DB	470F	mov     a, ra
-00DC	4590	orm     a, rb
-00DD	4710	mov     a, rb
-00DE	4086	mov     port_D_data[0], a
+00E0	4713	mov     a, data[0]
+00E1	4690	andm    a, rb
+00E2	470F	mov     a, ra
+00E3	4590	orm     a, rb
+00E4	4710	mov     a, rb
+00E5	4086	mov     port_D_data[0], a
 				;159						break;
 				;160				}
 				;161				_pd = port_D_data;
-00DF	4710	mov     a, rb
-00E0	00A6	mov     PD, a
+00E6	4710	mov     a, rb
+00E7	00A6	mov     PD, a
 				;162				break;
-00E1	28F2	jmp     L00F2
+00E8	28F9	jmp     L00F9
 				;163			case HT66FB550_MCU_IO_PE:
 				;164				switch(pin)
 				;165				{
@@ -533,31 +551,31 @@
 				;168						break;
 				;169					default:
 				;170						port_E_data = port_E_data & (!filter);
-				L00E2:
-00E2	0F01	mov     a, 1H
-00E3	408F	mov     ra, a
-00E4	5095	sz      filter[0]
-00E5	28E7	jmp     L00E7
-00E6	28E8	jmp     L00E8
-				L00E7:
-00E7	5F0F	clr     ra
-				L00E8:
-00E8	4705	mov     a, port_E_data[0]
-00E9	468F	andm    a, ra
+				L00E9:
+00E9	0F01	mov     a, 1H
+00EA	408F	mov     ra, a
+00EB	5095	sz      filter[0]
+00EC	28EE	jmp     L00EE
+00ED	28EF	jmp     L00EF
+				L00EE:
+00EE	5F0F	clr     ra
+				L00EF:
+00EF	4705	mov     a, port_E_data[0]
+00F0	468F	andm    a, ra
 				;171						port_E_data = port_E_data | (filter & data);
-00EA	4713	mov     a, data[0]
-00EB	4690	andm    a, rb
-00EC	470F	mov     a, ra
-00ED	4590	orm     a, rb
-00EE	4710	mov     a, rb
-00EF	4085	mov     port_E_data[0], a
+00F1	4713	mov     a, data[0]
+00F2	4690	andm    a, rb
+00F3	470F	mov     a, ra
+00F4	4590	orm     a, rb
+00F5	4710	mov     a, rb
+00F6	4085	mov     port_E_data[0], a
 				;172						break;
 				;173				}
 				;174				_pe = port_E_data;
-00F0	4710	mov     a, rb
-00F1	00A8	mov     PE, a
-				L00F2:
-00F2	0003	ret
+00F7	4710	mov     a, rb
+00F8	00A8	mov     PE, a
+				L00F9:
+00F9	0003	ret
 				;175				break;
 				;176		}		
 				;177	}
@@ -716,6 +734,8 @@
 				;330		
 				;331	}
 				data .SECTION 'DATA'
+				__smod DB DUP (?) ; __smod
+				__wdtc DB DUP (?) ; __wdtc
 				__pa DB DUP (?) ; __pa
 				__pac DB DUP (?) ; __pac
 				__paoi DB DUP (?) ; __paoi
@@ -730,6 +750,8 @@
 				__pec DB DUP (?) ; __pec
 				__acer0 DB DUP (?) ; __acer0
 				__acer1 DB DUP (?) ; __acer1
+				__usc DB DUP (?) ; __usc
+				__ucc DB DUP (?) ; __ucc
 				port_E_pull_high DB DUP (?) ; port_E_pull_high
 				port_D_pull_high DB DUP (?) ; port_D_pull_high
 				port_C_pull_high DB DUP (?) ; port_C_pull_high
