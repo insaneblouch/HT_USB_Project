@@ -10,10 +10,9 @@ void main()
 	//_acer0 = 0;
 	//_acer1 = 0;
 	//_pbc = 0;
-	
+	UART_Init();
+	UART_Start();
+	_pb1 = 1;
 	loop:
-
-	_pb1=1;
-	_pb1=0;
 	goto loop;
 }
