@@ -13,70 +13,56 @@
 				@start .SECTION 'CODE'
 				_main_startup1:
 				@start .SECTION 'CODE'
-0001	2828	jmp     _main
+0001	2802	jmp     _main
 				;9		volatile int a;
 				;10		HT66FB550_MCU_Init();
-				@dummy36 .SECTION 'CODE'
 				_main:
 				_main:
-0028	2002	call    _HT66FB550_MCU_Init
+0002	2019	call    _HT66FB550_MCU_Init
 				;11		HT66FB550_IO_INIT();
-0029	2136	call    _HT66FB550_IO_INIT
+0003	2112	call    _HT66FB550_IO_INIT
 				;12		//_acer0 = 0;
 				;13		//_acer1 = 0;
 				;14		//_pbc = 0;
 				;15		UART_Init();
-002A	200A	call    _UART_Init
+0004	21D8	call    _UART_Init
 				;16		
 				;17		_pb1 = 1;
-002B	30A2	set     PB1
+0005	30A2	set     PB1
 				;18		loop:
 				;19		UART_Put_Char(0x42);
 				_L2:
-002C	0F42	mov     a, 42H
-002D	223B	call    _UART_Put_Char
+0006	0F42	mov     a, 42H
+0007	2225	call    _UART_Put_Char
 				;20		UART_Put_Char(0x42);
-002E	0F42	mov     a, 42H
-002F	223B	call    _UART_Put_Char
+0008	0F42	mov     a, 42H
+0009	2225	call    _UART_Put_Char
 				;21		UART_Put_Char(0x42);
-0030	0F42	mov     a, 42H
-0031	223B	call    _UART_Put_Char
+000A	0F42	mov     a, 42H
+000B	2225	call    _UART_Put_Char
 				;22		UART_Put_Char(0x43);
-0032	0F43	mov     a, 43H
-0033	223B	call    _UART_Put_Char
+000C	0F43	mov     a, 43H
+000D	2225	call    _UART_Put_Char
 				;23		UART_Put_Char(0x42);
-0034	0F42	mov     a, 42H
-0035	223B	call    _UART_Put_Char
+000E	0F42	mov     a, 42H
+000F	2225	call    _UART_Put_Char
 				;24		UART_Put_Char(0x41);
-0036	0F41	mov     a, 41H
-0037	223B	call    _UART_Put_Char
+0010	0F41	mov     a, 41H
+0011	2225	call    _UART_Put_Char
 				;25		UART_Put_Char(0x41);
-0038	0F41	mov     a, 41H
-0039	223B	call    _UART_Put_Char
+0012	0F41	mov     a, 41H
+0013	2225	call    _UART_Put_Char
 				;26		UART_Put_Char('\n');
-003A	0F0A	mov     a, AH
-003B	223B	call    _UART_Put_Char
+0014	0F0A	mov     a, AH
+0015	2225	call    _UART_Put_Char
 				;27		UART_Start();
-003C	21FC	call    _UART_Start
-				;28		for(a=0; a<10000; a++);
-003D	5F27	clr     a[0]
-003E	5F28	clr     a[1]
-				_L3:
-003F	0F0F	mov     a, FH
-0040	4227	sub     a, a[0]
-0041	0F27	mov     a, 27H
-0042	5228	sbc     a, a[1]
-0043	1185	swap    ACC
-0044	040A	xor     a, STATUS
-0045	3D85	sz      ACC.3
-0046	282C	jmp     _L2
-0047	54A7	inc     a[0]
-0048	3D0A	sz      Z
-0049	54A8	inc     a[1]
-004A	283F	jmp     _L3
-004B	284B	jmp     $
-				;29		goto loop;
-				;30	}
+0016	21E6	call    _UART_Start
+0017	2806	jmp     _L2
+0018	2818	jmp     $
+				;28		//for(a=0; a<10000; a++);
+				;29		//while(1);
+				;30		goto loop;
+				;31	}
 				;file C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_Common\HT66FB550_MCU.c
 				;1	#include "HT66FB550.h"
 				;2	#include "HT66FB550_typedef.h"
@@ -109,18 +95,22 @@
 				;29	    _ucc    = 0x60;         //sysclk=6MHz,Fsys16MHz=1
 				_HT66FB550_MCU_Init:
 				_HT66FB550_MCU_Init:
-0002	0F60	mov     a, 60H
-0003	00E8	mov     UCC, a
+				@dummy .SECTION 'CODE'
+0019	0F60	mov     a, 60H
+001A	00E8	mov     UCC, a
 				;30	    _usc    = 0x00;         //pll=on
-0004	1F66	clr     USC
+001B	1F66	clr     USC
 				;31	    _smod   = 0xE1;         //Fsys_clock_divider=none;direct come for Fh
-0005	0FE1	mov     a, E1H
-0006	008B	mov     SMOD, a
+001C	0FE1	mov     a, E1H
+001D	008B	mov     SMOD, a
 				;32	    //2.cancel WDT
 				;33	    _wdtc   = 0xAC;
-0007	0FAC	mov     a, ACH
-0008	008E	mov     WDTC, a
-0009	0003	ret
+001E	0FAC	mov     a, ACH
+001F	008E	mov     WDTC, a
+0020	0003	ret
+0021	0000	nop
+0022	0000	nop
+0023	0000	nop
 				;34	}
 				;35	
 				;36	#endif
@@ -153,46 +143,46 @@
 0024	409C	mov     r124, a
 0025	0704	mov     a, BP
 0026	409D	mov     r224, a
-0027	29DD	jmp     _ISR_timer3
+0027	29B9	jmp     _ISR_timer3
 				_ISR_timer3:
 				_ISR_timer3:
-01DD	070A	mov     a, STATUS
-01DE	409E	mov     r324, a
-01DF	0703	mov     a, MP1
-01E0	409F	mov     r424, a
-01E1	0701	mov     a, MP0
-01E2	40A0	mov     r524, a
-01E3	0707	mov     a, TBLP
-01E4	40A1	mov     r624, a
-01E5	0709	mov     a, TBHP
-01E6	40A2	mov     r724, a
+01B9	070A	mov     a, STATUS
+01BA	409E	mov     r324, a
+01BB	0703	mov     a, MP1
+01BC	409F	mov     r424, a
+01BD	0701	mov     a, MP0
+01BE	40A0	mov     r524, a
+01BF	0707	mov     a, TBLP
+01C0	40A1	mov     r624, a
+01C1	0709	mov     a, TBHP
+01C2	40A2	mov     r724, a
 				;25		if(_t3af){
-01E7	3B95	snz     T3AF
-01E8	29ED	jmp     _L18
+01C3	3B95	snz     T3AF
+01C4	29C9	jmp     _L18
 				;26			_t3af = 0;
-01E9	3795	clr     T3AF
+01C5	3795	clr     T3AF
 				;27			_t3on = 0;
-01EA	35DE	clr     T3ON
+01C6	35DE	clr     T3ON
 				;28			_t3on = 1;
-01EB	31DE	set     T3ON
+01C7	31DE	set     T3ON
 				;29			UART_ISR();
-01EC	2161	call    _UART_ISR
+01C8	213D	call    _UART_ISR
 				_L18:
-01ED	471D	mov     a, r224
-01EE	0084	mov     BP, a
-01EF	471E	mov     a, r324
-01F0	008A	mov     STATUS, a
-01F1	471F	mov     a, r424
-01F2	0083	mov     MP1, a
-01F3	4720	mov     a, r524
-01F4	0081	mov     MP0, a
-01F5	4721	mov     a, r624
-01F6	0087	mov     TBLP, a
-01F7	4722	mov     a, r724
-01F8	0089	mov     TBHP, a
-01F9	1D05	tabrd   ACC
-01FA	471C	mov     a, r124
-01FB	0004	reti
+01C9	471D	mov     a, r224
+01CA	0084	mov     BP, a
+01CB	471E	mov     a, r324
+01CC	008A	mov     STATUS, a
+01CD	471F	mov     a, r424
+01CE	0083	mov     MP1, a
+01CF	4720	mov     a, r524
+01D0	0081	mov     MP0, a
+01D1	4721	mov     a, r624
+01D2	0087	mov     TBLP, a
+01D3	4722	mov     a, r724
+01D4	0089	mov     TBHP, a
+01D5	1D05	tabrd   ACC
+01D6	471C	mov     a, r124
+01D7	0004	reti
 				;30		}		
 				;31		return;
 				;32	}
@@ -202,72 +192,72 @@
 				;36		UART_TX_PIN = uart_pin_buf;
 				_UART_ISR:
 				_UART_ISR:
-0161	4711	mov     a, uart_pin_buf[0]
-0162	0E01	and     a, 1H
-0163	4098	mov     ra24, a
-0164	4718	mov     a, ra24
-0165	4398	addm    a, ra24
-0166	0722	mov     a, PB
-0167	4099	mov     rb24, a
-0168	7499	clr     rb24.1
-0169	4719	mov     a, rb24
-016A	4518	or      a, ra24
-016B	00A2	mov     PB, a
+013D	4711	mov     a, uart_pin_buf[0]
+013E	0E01	and     a, 1H
+013F	4098	mov     ra24, a
+0140	4718	mov     a, ra24
+0141	4398	addm    a, ra24
+0142	0722	mov     a, PB
+0143	4099	mov     rb24, a
+0144	7499	clr     rb24.1
+0145	4719	mov     a, rb24
+0146	4518	or      a, ra24
+0147	00A2	mov     PB, a
 				;37		switch(uart_step)
-016C	4713	mov     a, uart_step[0]
-016D	0A00	sub     a, 0H
-016E	3D0A	sz      Z
-016F	299B	jmp     _L3
-0170	0A01	sub     a, 1H
-0171	3D0A	sz      Z
-0172	299D	jmp     _L4
-0173	4713	mov     a, uart_step[0]
-0174	0A02	sub     a, 2H
-0175	3D0A	sz      Z
-0176	299D	jmp     _L4
-0177	0A01	sub     a, 1H
-0178	3D0A	sz      Z
-0179	299D	jmp     _L4
-017A	4713	mov     a, uart_step[0]
-017B	0A04	sub     a, 4H
-017C	3D0A	sz      Z
-017D	299D	jmp     _L4
-017E	0A01	sub     a, 1H
-017F	3D0A	sz      Z
-0180	299D	jmp     _L4
-0181	4713	mov     a, uart_step[0]
-0182	0A06	sub     a, 6H
-0183	3D0A	sz      Z
-0184	299D	jmp     _L4
-0185	0A01	sub     a, 1H
-0186	3D0A	sz      Z
-0187	299D	jmp     _L4
-0188	4713	mov     a, uart_step[0]
-0189	0A08	sub     a, 8H
-018A	3D0A	sz      Z
-018B	299D	jmp     _L4
-018C	0A01	sub     a, 1H
-018D	3D0A	sz      Z
-018E	29A7	jmp     _L5
-018F	4713	mov     a, uart_step[0]
-0190	0A0A	sub     a, AH
-0191	3D0A	sz      Z
-0192	29A7	jmp     _L5
-0193	0A01	sub     a, 1H
-0194	3D0A	sz      Z
-0195	29A7	jmp     _L5
-0196	4713	mov     a, uart_step[0]
-0197	0A0C	sub     a, CH
-0198	390A	snz     Z
-0199	29DB	jmp     _L2
-019A	29AA	jmp     _L17
+0148	4713	mov     a, uart_step[0]
+0149	0A00	sub     a, 0H
+014A	3D0A	sz      Z
+014B	2977	jmp     _L3
+014C	0A01	sub     a, 1H
+014D	3D0A	sz      Z
+014E	2979	jmp     _L4
+014F	4713	mov     a, uart_step[0]
+0150	0A02	sub     a, 2H
+0151	3D0A	sz      Z
+0152	2979	jmp     _L4
+0153	0A01	sub     a, 1H
+0154	3D0A	sz      Z
+0155	2979	jmp     _L4
+0156	4713	mov     a, uart_step[0]
+0157	0A04	sub     a, 4H
+0158	3D0A	sz      Z
+0159	2979	jmp     _L4
+015A	0A01	sub     a, 1H
+015B	3D0A	sz      Z
+015C	2979	jmp     _L4
+015D	4713	mov     a, uart_step[0]
+015E	0A06	sub     a, 6H
+015F	3D0A	sz      Z
+0160	2979	jmp     _L4
+0161	0A01	sub     a, 1H
+0162	3D0A	sz      Z
+0163	2979	jmp     _L4
+0164	4713	mov     a, uart_step[0]
+0165	0A08	sub     a, 8H
+0166	3D0A	sz      Z
+0167	2979	jmp     _L4
+0168	0A01	sub     a, 1H
+0169	3D0A	sz      Z
+016A	2983	jmp     _L5
+016B	4713	mov     a, uart_step[0]
+016C	0A0A	sub     a, AH
+016D	3D0A	sz      Z
+016E	2983	jmp     _L5
+016F	0A01	sub     a, 1H
+0170	3D0A	sz      Z
+0171	2983	jmp     _L5
+0172	4713	mov     a, uart_step[0]
+0173	0A0C	sub     a, CH
+0174	390A	snz     Z
+0175	29B7	jmp     _L2
+0176	2986	jmp     _L17
 				;38		{
 				;39			case 0:
 				;40				uart_pin_buf=0;
 				_L3:
-019B	5F11	clr     uart_pin_buf[0]
+0177	5F11	clr     uart_pin_buf[0]
 				;41				break;	
-019C	29DB	jmp     _L2
+0178	29B7	jmp     _L2
 				;42			case 1:
 				;43			case 3:
 				;44			case 5:
@@ -278,95 +268,95 @@
 				;49			case 8:
 				;50	            uart_pin_buf = uart_out_buf & 0x01;
 				_L4:
-019D	4712	mov     a, uart_out_buf[0]
-019E	4098	mov     ra24, a
-019F	4718	mov     a, ra24
-01A0	0E01	and     a, 1H
-01A1	4091	mov     uart_pin_buf[0], a
+0179	4712	mov     a, uart_out_buf[0]
+017A	4098	mov     ra24, a
+017B	4718	mov     a, ra24
+017C	0E01	and     a, 1H
+017D	4091	mov     uart_pin_buf[0], a
 				;51	            uart_out_buf = uart_out_buf >> 1;
-01A2	5A18	rlca    ra24
-01A3	5B98	rrc     ra24
-01A4	4718	mov     a, ra24
-01A5	4092	mov     uart_out_buf[0], a
+017E	5A18	rlca    ra24
+017F	5B98	rrc     ra24
+0180	4718	mov     a, ra24
+0181	4092	mov     uart_out_buf[0], a
 				;52				break;
-01A6	29DB	jmp     _L2
+0182	29B7	jmp     _L2
 				;53			case 9:		//stop bit
 				;54			case 10:	//stop bit hold
 				;55			case 11:	//stop bit hold
 				;56				uart_pin_buf = 1;
 				_L5:
-01A7	0F01	mov     a, 1H
-01A8	4091	mov     uart_pin_buf[0], a
+0183	0F01	mov     a, 1H
+0184	4091	mov     uart_pin_buf[0], a
 				;57				break;
-01A9	29DB	jmp     _L2
+0185	29B7	jmp     _L2
 				;58			case 12:
 				;59	            if((uart_head==uart_tail) & (uart_buf[uart_head]==0)){
 				_L17:
-01AA	4710	mov     a, uart_head[0]
-01AB	409A	mov     rd24, a
-01AC	470F	mov     a, uart_tail[0]
-01AD	4098	mov     ra24, a
-01AE	471A	mov     a, rd24
-01AF	4099	mov     rb24, a
-01B0	5F1B	clr     rc24
-01B1	3F85	sz      ACC.7
-01B2	5F9B	set     rc24
-01B3	0F80	mov     a, 80H
-01B4	4319	add     a, rb24
-01B5	0083	mov     MP1, a
-01B6	0F04	mov     a, 4H
-01B7	531B	adc     a, rc24
-01B8	0081	mov     MP0, a
-01B9	2019	call    L0019
-01BA	4099	mov     rb24, a
-01BB	5099	sz      rb24
-01BC	29C3	jmp     _L7
-01BD	471A	mov     a, rd24
-01BE	4218	sub     a, ra24
-01BF	390A	snz     Z
-01C0	29C3	jmp     _L7
+0186	4710	mov     a, uart_head[0]
+0187	409A	mov     rd24, a
+0188	470F	mov     a, uart_tail[0]
+0189	4098	mov     ra24, a
+018A	471A	mov     a, rd24
+018B	4099	mov     rb24, a
+018C	5F1B	clr     rc24
+018D	3F85	sz      ACC.7
+018E	5F9B	set     rc24
+018F	0F80	mov     a, 80H
+0190	4319	add     a, rb24
+0191	0083	mov     MP1, a
+0192	0F04	mov     a, 4H
+0193	531B	adc     a, rc24
+0194	0081	mov     MP0, a
+0195	224B	call    L024B
+0196	4099	mov     rb24, a
+0197	5099	sz      rb24
+0198	299F	jmp     _L7
+0199	471A	mov     a, rd24
+019A	4218	sub     a, ra24
+019B	390A	snz     Z
+019C	299F	jmp     _L7
 				;60	                UART_Stop();
 				;61	                return;
 				;62	            }
 				;63	            uart_step = -1;
 				_L7:
-01C3	5F93	set     uart_step[0]
+019F	5F93	set     uart_step[0]
 				;64	            uart_pin_buf=1;
-01C4	0F01	mov     a, 1H
-01C5	4091	mov     uart_pin_buf[0], a
+01A0	0F01	mov     a, 1H
+01A1	4091	mov     uart_pin_buf[0], a
 				;65	            uart_out_buf = uart_buf[uart_tail];
-01C6	4718	mov     a, ra24
-01C7	4099	mov     rb24, a
-01C8	5F1B	clr     rc24
-01C9	3F85	sz      ACC.7
-01CA	5F9B	set     rc24
-01CB	0F80	mov     a, 80H
-01CC	4319	add     a, rb24
-01CD	0083	mov     MP1, a
-01CE	0F04	mov     a, 4H
-01CF	531B	adc     a, rc24
-01D0	0081	mov     MP0, a
-01D1	2019	call    L0019
-01D2	4092	mov     uart_out_buf[0], a
+01A2	4718	mov     a, ra24
+01A3	4099	mov     rb24, a
+01A4	5F1B	clr     rc24
+01A5	3F85	sz      ACC.7
+01A6	5F9B	set     rc24
+01A7	0F80	mov     a, 80H
+01A8	4319	add     a, rb24
+01A9	0083	mov     MP1, a
+01AA	0F04	mov     a, 4H
+01AB	531B	adc     a, rc24
+01AC	0081	mov     MP0, a
+01AD	224B	call    L024B
+01AE	4092	mov     uart_out_buf[0], a
 				;66	            //uart_out_buf = 0x41;
 				;67	            uart_buf[uart_tail] = 0;
-01D3	0701	mov     a, MP0
-01D4	0084	mov     BP, a
-01D5	0F00	mov     a, 0H
-01D6	0082	mov     [02H], a
+01AF	0701	mov     a, MP0
+01B0	0084	mov     BP, a
+01B1	0F00	mov     a, 0H
+01B2	0082	mov     [02H], a
 				;68	            uart_tail++;
-01D7	5498	inc     ra24
+01B3	5498	inc     ra24
 				;69	            uart_tail = uart_tail & 0x7f;
-01D8	7798	clr     ra24.7
-01D9	4718	mov     a, ra24
-01DA	408F	mov     uart_tail[0], a
+01B4	7798	clr     ra24.7
+01B5	4718	mov     a, ra24
+01B6	408F	mov     uart_tail[0], a
 				;70				break;		
 				;71		}
 				;72		uart_step++;
 				_L2:
-01DB	5493	inc     uart_step[0]
+01B7	5493	inc     uart_step[0]
 				_L1:
-01DC	0003	ret
+01B8	0003	ret
 				;73		return;
 				;74	}
 				;75	void UART_Init(void)
@@ -374,40 +364,27 @@
 				;77	    _tm3c0 = 0x10;
 				_UART_Init:
 				_UART_Init:
-000A	0F10	mov     a, 10H
-000B	00DE	mov     TM3C0, a
+01D8	0F10	mov     a, 10H
+01D9	00DE	mov     TM3C0, a
 				;78	    _tm3c1 = 0xC0;
-000C	0FC0	mov     a, C0H
-000D	00DF	mov     TM3C1, a
+01DA	0FC0	mov     a, C0H
+01DB	00DF	mov     TM3C1, a
 				;79	    uart_head = 0;
-000E	5F10	clr     uart_head[0]
+01DC	5F10	clr     uart_head[0]
 				;80	    uart_tail = 0;
-000F	5F0F	clr     uart_tail[0]
+01DD	5F0F	clr     uart_tail[0]
 				;81		tm3reload();
-0010	0FD8	mov     a, D8H
-0011	00E2	mov     TM3AL, a
-0012	0F02	mov     a, 2H
-0013	00E3	mov     TM3AH, a
+01DE	0FD8	mov     a, D8H
+01DF	00E2	mov     TM3AL, a
+01E0	0F02	mov     a, 2H
+01E1	00E3	mov     TM3AH, a
 				;82	    _mf3e = 1;
-0014	3092	set     MF3E
+01E2	3092	set     MF3E
 				;83	    _t3ae = 1;
-0015	3195	set     T3AE
+01E3	3195	set     T3AE
 				;84	    _emi = 1;
-0016	3010	set     EMI
-0017	0003	ret
-0018	1483	inc     MP1
-				L0019:
-0019	0701	mov     a, MP0
-001A	0084	mov     BP, a
-001B	0702	mov     a, [02H]
-001C	0003	ret
-001D	0000	nop
-001E	0000	nop
-001F	0000	nop
-0020	0000	nop
-0021	0000	nop
-0022	0000	nop
-0023	0000	nop
+01E4	3010	set     EMI
+01E5	0003	ret
 				;85	}
 				;86	
 				;87	void UART_Start(void)
@@ -415,20 +392,47 @@
 				;89		if(_t3on)
 				_UART_Start:
 				_UART_Start:
-01FC	3DDE	sz      T3ON
-01FD	2A3A	jmp     _L24
+01E6	3DDE	sz      T3ON
+01E7	2A24	jmp     _L24
 				;90			return;
 				;91	    if(uart_head!=uart_tail){
-01FE	4710	mov     a, uart_head[0]
-01FF	4094	mov     ra, a
-0200	470F	mov     a, uart_tail[0]
-0201	4097	mov     rd, a
-0202	4714	mov     a, ra
-0203	4217	sub     a, rd
-0204	3D0A	sz      Z
-0205	2A1C	jmp     _L26
+01E8	4710	mov     a, uart_head[0]
+01E9	4094	mov     ra, a
+01EA	470F	mov     a, uart_tail[0]
+01EB	4097	mov     rd, a
+01EC	4714	mov     a, ra
+01ED	4217	sub     a, rd
+01EE	3D0A	sz      Z
+01EF	2A06	jmp     _L26
 				;92	        uart_out_buf = uart_buf[uart_tail];
-0206	4717	mov     a, rd
+01F0	4717	mov     a, rd
+01F1	4095	mov     rb, a
+01F2	5F16	clr     rc
+01F3	3F85	sz      ACC.7
+01F4	5F96	set     rc
+01F5	0F80	mov     a, 80H
+01F6	4315	add     a, rb
+01F7	0083	mov     MP1, a
+01F8	0F04	mov     a, 4H
+01F9	5316	adc     a, rc
+01FA	0081	mov     MP0, a
+01FB	224B	call    L024B
+01FC	4092	mov     uart_out_buf[0], a
+				;93	        uart_buf[uart_tail] = 0;
+01FD	0701	mov     a, MP0
+01FE	0084	mov     BP, a
+01FF	0F00	mov     a, 0H
+0200	0082	mov     [02H], a
+				;94	        uart_tail++;
+0201	5497	inc     rd
+				;95	        uart_tail = uart_tail & 0x7f; 
+0202	7797	clr     rd.7
+0203	4717	mov     a, rd
+0204	408F	mov     uart_tail[0], a
+0205	2A20	jmp     _L27
+				;96	    }else if(uart_buf[uart_head]!=0){
+				_L26:
+0206	4714	mov     a, ra
 0207	4095	mov     rb, a
 0208	5F16	clr     rc
 0209	3F85	sz      ACC.7
@@ -439,135 +443,114 @@
 020E	0F04	mov     a, 4H
 020F	5316	adc     a, rc
 0210	0081	mov     MP0, a
-0211	2019	call    L0019
-0212	4092	mov     uart_out_buf[0], a
-				;93	        uart_buf[uart_tail] = 0;
-0213	0701	mov     a, MP0
-0214	0084	mov     BP, a
-0215	0F00	mov     a, 0H
-0216	0082	mov     [02H], a
-				;94	        uart_tail++;
-0217	5497	inc     rd
-				;95	        uart_tail = uart_tail & 0x7f; 
-0218	7797	clr     rd.7
-0219	4717	mov     a, rd
-021A	408F	mov     uart_tail[0], a
-021B	2A36	jmp     _L27
-				;96	    }else if(uart_buf[uart_head]!=0){
-				_L26:
-021C	4714	mov     a, ra
-021D	4095	mov     rb, a
-021E	5F16	clr     rc
-021F	3F85	sz      ACC.7
-0220	5F96	set     rc
-0221	0F80	mov     a, 80H
-0222	4315	add     a, rb
-0223	0083	mov     MP1, a
-0224	0F04	mov     a, 4H
-0225	5316	adc     a, rc
-0226	0081	mov     MP0, a
-0227	2019	call    L0019
-0228	4095	mov     rb, a
-0229	5095	sz      rb
-022A	2A2C	jmp     _LI1
-022B	2A3A	jmp     _L24
+0211	224B	call    L024B
+0212	4095	mov     rb, a
+0213	5095	sz      rb
+0214	2A16	jmp     _LI1
+0215	2A24	jmp     _L24
 				;97	        uart_out_buf = uart_buf[uart_tail];
 				_LI1:
-022C	4715	mov     a, rb
-022D	4092	mov     uart_out_buf[0], a
+0216	4715	mov     a, rb
+0217	4092	mov     uart_out_buf[0], a
 				;98	        uart_buf[uart_tail] = 0;
-022E	0701	mov     a, MP0
-022F	0084	mov     BP, a
-0230	0F00	mov     a, 0H
-0231	0082	mov     [02H], a
+0218	0701	mov     a, MP0
+0219	0084	mov     BP, a
+021A	0F00	mov     a, 0H
+021B	0082	mov     [02H], a
 				;99	        uart_tail++;
-0232	5494	inc     ra
+021C	5494	inc     ra
 				;100	        uart_tail = uart_tail & 0x7f; 
-0233	7794	clr     ra.7
-0234	4714	mov     a, ra
-0235	408F	mov     uart_tail[0], a
+021D	7794	clr     ra.7
+021E	4714	mov     a, ra
+021F	408F	mov     uart_tail[0], a
 				;101	    }else{
 				;102	        return;
 				;103	    }
 				;104	    uart_step = 0;
 				_L27:
-0236	5F13	clr     uart_step[0]
+0220	5F13	clr     uart_step[0]
 				;105		uart_pin_buf = 1;
-0237	0F01	mov     a, 1H
-0238	4091	mov     uart_pin_buf[0], a
+0221	0F01	mov     a, 1H
+0222	4091	mov     uart_pin_buf[0], a
 				;106	    _t3on = 1;
-0239	31DE	set     T3ON
+0223	31DE	set     T3ON
 				_L24:
-023A	0003	ret
+0224	0003	ret
 				;107	}
 				;108	
 				;109	void UART_Stop(void)
 				;110	{
 				;111	    _t3on = 0;
-01C1	35DE	clr     T3ON
-01C2	29DC	jmp     _L1
+019D	35DE	clr     T3ON
+019E	29B8	jmp     _L1
 				;112	}
 				;113	
 				;114	char UART_Put_Char(char ch)
 				;115	{
 				_UART_Put_Char:
 				_UART_Put_Char:
-023B	40A3	mov     ch[0], a
+0225	40A3	mov     ch[0], a
 				;116	    if(uart_head==uart_tail){
-023C	4710	mov     a, uart_head[0]
-023D	4094	mov     ra, a
-0249	4714	mov     a, ra
-024A	420F	sub     a, uart_tail[0]
-024B	390A	snz     Z
-024C	2A51	jmp     L0251
+0226	4710	mov     a, uart_head[0]
+0227	4094	mov     ra, a
+0233	4714	mov     a, ra
+0234	420F	sub     a, uart_tail[0]
+0235	390A	snz     Z
+0236	2A3B	jmp     L023B
 				;117	        if(uart_buf[uart_head]==0){
-023E	4714	mov     a, ra
-023F	4095	mov     rb, a
-0240	5F16	clr     rc
-0241	3F85	sz      ACC.7
-0242	5F96	set     rc
-0243	0F80	mov     a, 80H
-0244	4315	add     a, rb
-0245	0083	mov     MP1, a
-0246	0F04	mov     a, 4H
-0247	5316	adc     a, rc
-0248	0081	mov     MP0, a
-024D	2019	call    L0019
-024E	40A4	mov     data, a
-024F	50A4	sz      data
-0250	2A5C	jmp     L025C
+0228	4714	mov     a, ra
+0229	4095	mov     rb, a
+022A	5F16	clr     rc
+022B	3F85	sz      ACC.7
+022C	5F96	set     rc
+022D	0F80	mov     a, 80H
+022E	4315	add     a, rb
+022F	0083	mov     MP1, a
+0230	0F04	mov     a, 4H
+0231	5316	adc     a, rc
+0232	0081	mov     MP0, a
+0237	224B	call    L024B
+0238	40A4	mov     data, a
+0239	50A4	sz      data
+023A	2A46	jmp     L0246
 				;118	            uart_buf[uart_head] = ch;
 				;119	            uart_head++;
 				;120	            uart_head = uart_head & 0x7f; 
 				;121	        }
 				;122	        else{
 				;123	            return UART_Buffer_Full;
-				L025C:
-025C	0F01	mov     a, 1H
-025D	4094	mov     ra, a
+				L0246:
+0246	0F01	mov     a, 1H
+0247	4094	mov     ra, a
 				;124	        }
 				;125	    }else{
 				;126	        uart_buf[uart_head] = ch;
-				L0251:
-0251	0701	mov     a, MP0
-0252	0084	mov     BP, a
-0253	4723	mov     a, ch[0]
-0254	0082	mov     [02H], a
+				L023B:
+023B	0701	mov     a, MP0
+023C	0084	mov     BP, a
+023D	4723	mov     a, ch[0]
+023E	0082	mov     [02H], a
 				;127	        uart_head++;
-0255	5494	inc     ra
+023F	5494	inc     ra
 				;128	        uart_head = uart_head & 0x7f; 
-0256	7794	clr     ra.7
-0257	4714	mov     a, ra
-0258	4090	mov     uart_head[0], a
+0240	7794	clr     ra.7
+0241	4714	mov     a, ra
+0242	4090	mov     uart_head[0], a
 				;129	    }
 				;130	    return UART_Buffer_Add_Success;
-0259	0F02	mov     a, 2H
-025A	4094	mov     ra, a
-025B	2A5E	jmp     L025E
+0243	0F02	mov     a, 2H
+0244	4094	mov     ra, a
+0245	2A48	jmp     L0248
 				;131	}
-				L025E:
-025E	4714	mov     a, ra
-025F	0003	ret
+				L0248:
+0248	4714	mov     a, ra
+0249	0003	ret
+024A	1483	inc     MP1
+				L024B:
+024B	0701	mov     a, MP0
+024C	0084	mov     BP, a
+024D	0702	mov     a, [02H]
+024E	0003	ret
 				;132	
 				;133	#endif
 				;file C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_Common\HT66FB550_IO.c
@@ -588,106 +571,106 @@
 				;15		HT66FB550_IO_DIR(HT66FB550_MCU_IO_PA,HT66FB550_MCU_IO_PINALL,HT66FB550_MCU_IO_OUTPUT);
 				_HT66FB550_IO_INIT:
 				_HT66FB550_IO_INIT:
+0112	5F24	clr     data
+0113	5FA3	set     ch
+0114	0F00	mov     a, 0H
+0115	2028	call    _HT66FB550_IO_DIR
+				;16		HT66FB550_IO_DIR(HT66FB550_MCU_IO_PB,HT66FB550_MCU_IO_PINALL,HT66FB550_MCU_IO_OUTPUT);
+0116	5F24	clr     data
+0117	5FA3	set     ch
+0118	0F01	mov     a, 1H
+0119	2028	call    _HT66FB550_IO_DIR
+				;17		HT66FB550_IO_DIR(HT66FB550_MCU_IO_PC,HT66FB550_MCU_IO_PINALL,HT66FB550_MCU_IO_OUTPUT);
+011A	5F24	clr     data
+011B	5FA3	set     ch
+011C	0F02	mov     a, 2H
+011D	2028	call    _HT66FB550_IO_DIR
+				;18		HT66FB550_IO_DIR(HT66FB550_MCU_IO_PD,HT66FB550_MCU_IO_PINALL,HT66FB550_MCU_IO_OUTPUT);
+011E	5F24	clr     data
+011F	5FA3	set     ch
+0120	0F03	mov     a, 3H
+0121	2028	call    _HT66FB550_IO_DIR
+				;19		HT66FB550_IO_DIR(HT66FB550_MCU_IO_PE,HT66FB550_MCU_IO_PINALL,HT66FB550_MCU_IO_OUTPUT);
+0122	5F24	clr     data
+0123	5FA3	set     ch
+0124	0F04	mov     a, 4H
+0125	2028	call    _HT66FB550_IO_DIR
+				;20		HT66FB550_IO_Data(HT66FB550_MCU_IO_PA,HT66FB550_MCU_IO_PINALL,0x00);
+0126	5F24	clr     data
+0127	5FA3	set     ch
+0128	0F00	mov     a, 0H
+0129	209D	call    _HT66FB550_IO_Data
+				;21		HT66FB550_IO_Data(HT66FB550_MCU_IO_PB,HT66FB550_MCU_IO_PINALL,0x00);
+012A	5F24	clr     data
+012B	5FA3	set     ch
+012C	0F01	mov     a, 1H
+012D	209D	call    _HT66FB550_IO_Data
+				;22		HT66FB550_IO_Data(HT66FB550_MCU_IO_PC,HT66FB550_MCU_IO_PINALL,0x00);
+012E	5F24	clr     data
+012F	5FA3	set     ch
+0130	0F02	mov     a, 2H
+0131	209D	call    _HT66FB550_IO_Data
+				;23		HT66FB550_IO_Data(HT66FB550_MCU_IO_PD,HT66FB550_MCU_IO_PINALL,0x00);
+0132	5F24	clr     data
+0133	5FA3	set     ch
+0134	0F03	mov     a, 3H
+0135	209D	call    _HT66FB550_IO_Data
+				;24		HT66FB550_IO_Data(HT66FB550_MCU_IO_PE,HT66FB550_MCU_IO_PINALL,0x00);
 0136	5F24	clr     data
 0137	5FA3	set     ch
-0138	0F00	mov     a, 0H
-0139	204C	call    _HT66FB550_IO_DIR
-				;16		HT66FB550_IO_DIR(HT66FB550_MCU_IO_PB,HT66FB550_MCU_IO_PINALL,HT66FB550_MCU_IO_OUTPUT);
-013A	5F24	clr     data
-013B	5FA3	set     ch
-013C	0F01	mov     a, 1H
-013D	204C	call    _HT66FB550_IO_DIR
-				;17		HT66FB550_IO_DIR(HT66FB550_MCU_IO_PC,HT66FB550_MCU_IO_PINALL,HT66FB550_MCU_IO_OUTPUT);
-013E	5F24	clr     data
-013F	5FA3	set     ch
-0140	0F02	mov     a, 2H
-0141	204C	call    _HT66FB550_IO_DIR
-				;18		HT66FB550_IO_DIR(HT66FB550_MCU_IO_PD,HT66FB550_MCU_IO_PINALL,HT66FB550_MCU_IO_OUTPUT);
-0142	5F24	clr     data
-0143	5FA3	set     ch
-0144	0F03	mov     a, 3H
-0145	204C	call    _HT66FB550_IO_DIR
-				;19		HT66FB550_IO_DIR(HT66FB550_MCU_IO_PE,HT66FB550_MCU_IO_PINALL,HT66FB550_MCU_IO_OUTPUT);
-0146	5F24	clr     data
-0147	5FA3	set     ch
-0148	0F04	mov     a, 4H
-0149	204C	call    _HT66FB550_IO_DIR
-				;20		HT66FB550_IO_Data(HT66FB550_MCU_IO_PA,HT66FB550_MCU_IO_PINALL,0x00);
-014A	5F24	clr     data
-014B	5FA3	set     ch
-014C	0F00	mov     a, 0H
-014D	20C1	call    _HT66FB550_IO_Data
-				;21		HT66FB550_IO_Data(HT66FB550_MCU_IO_PB,HT66FB550_MCU_IO_PINALL,0x00);
-014E	5F24	clr     data
-014F	5FA3	set     ch
-0150	0F01	mov     a, 1H
-0151	20C1	call    _HT66FB550_IO_Data
-				;22		HT66FB550_IO_Data(HT66FB550_MCU_IO_PC,HT66FB550_MCU_IO_PINALL,0x00);
-0152	5F24	clr     data
-0153	5FA3	set     ch
-0154	0F02	mov     a, 2H
-0155	20C1	call    _HT66FB550_IO_Data
-				;23		HT66FB550_IO_Data(HT66FB550_MCU_IO_PD,HT66FB550_MCU_IO_PINALL,0x00);
-0156	5F24	clr     data
-0157	5FA3	set     ch
-0158	0F03	mov     a, 3H
-0159	20C1	call    _HT66FB550_IO_Data
-				;24		HT66FB550_IO_Data(HT66FB550_MCU_IO_PE,HT66FB550_MCU_IO_PINALL,0x00);
-015A	5F24	clr     data
-015B	5FA3	set     ch
-015C	0F04	mov     a, 4H
-015D	20C1	call    _HT66FB550_IO_Data
+0138	0F04	mov     a, 4H
+0139	209D	call    _HT66FB550_IO_Data
 				;25	    //set ADC pin to IO pin here
 				;26	    _acer0 = 0;
-015E	1F33	clr     ACER0
+013A	1F33	clr     ACER0
 				;27	    _acer1 = 0;
-015F	1F34	clr     ACER1
-0160	0003	ret
+013B	1F34	clr     ACER1
+013C	0003	ret
 				;28	    
 				;29	}
 				;30	
 				;31	void HT66FB550_IO_DIR(char port, char pin, char direction)
 				;32	{
+				@dummy36 .SECTION 'CODE'
 				_HT66FB550_IO_DIR:
 				_HT66FB550_IO_DIR:
-				@dummy .SECTION 'CODE'
-004C	4094	mov     ra, a
+0028	4094	mov     ra, a
 				;33		char filter=0x01;
 				;34		filter = filter << pin;
-004D	0F01	mov     a, 1H
-004E	4095	mov     rb, a
-004F	5F16	clr     rc
-0050	5423	inca    pin[0]
-0051	2855	jmp     L0055
-				L0052:
-0052	340A	clr     C
-0053	5A95	rlc     rb
-0054	5A96	rlc     rc
-				L0055:
-0055	1785	sdz     ACC
-0056	2852	jmp     L0052
-0057	4715	mov     a, rb
-0058	40A6	mov     filter[0], a
+0029	0F01	mov     a, 1H
+002A	4095	mov     rb, a
+002B	5F16	clr     rc
+002C	5423	inca    pin[0]
+002D	2831	jmp     L0031
+				L002E:
+002E	340A	clr     C
+002F	5A95	rlc     rb
+0030	5A96	rlc     rc
+				L0031:
+0031	1785	sdz     ACC
+0032	282E	jmp     L002E
+0033	4715	mov     a, rb
+0034	40A6	mov     filter[0], a
 				;35		switch(port)
-0059	4714	mov     a, ra
-005A	0A00	sub     a, 0H
-005B	3D0A	sz      Z
-005C	286C	jmp     L006C
-005D	0A01	sub     a, 1H
-005E	3D0A	sz      Z
-005F	287D	jmp     L007D
-0060	4714	mov     a, ra
-0061	0A02	sub     a, 2H
-0062	3D0A	sz      Z
-0063	288E	jmp     L008E
-0064	0A01	sub     a, 1H
-0065	3D0A	sz      Z
-0066	289F	jmp     L009F
-0067	4714	mov     a, ra
-0068	0A04	sub     a, 4H
-0069	390A	snz     Z
-006A	28C0	jmp     L00C0
-006B	28B0	jmp     L00B0
+0035	4714	mov     a, ra
+0036	0A00	sub     a, 0H
+0037	3D0A	sz      Z
+0038	2848	jmp     L0048
+0039	0A01	sub     a, 1H
+003A	3D0A	sz      Z
+003B	2859	jmp     L0059
+003C	4714	mov     a, ra
+003D	0A02	sub     a, 2H
+003E	3D0A	sz      Z
+003F	286A	jmp     L006A
+0040	0A01	sub     a, 1H
+0041	3D0A	sz      Z
+0042	287B	jmp     L007B
+0043	4714	mov     a, ra
+0044	0A04	sub     a, 4H
+0045	390A	snz     Z
+0046	289C	jmp     L009C
+0047	288C	jmp     L008C
 				;36		{
 				;37			case HT66FB550_MCU_IO_PA:
 				;38				switch(pin)
@@ -697,31 +680,31 @@
 				;42						break;
 				;43					default:
 				;44						port_A_config = port_A_config & (!filter);
-				L006C:
-006C	0F01	mov     a, 1H
-006D	4094	mov     ra, a
-006E	50A6	sz      filter[0]
-006F	2871	jmp     L0071
-0070	2872	jmp     L0072
-				L0071:
-0071	5F14	clr     ra
-				L0072:
-0072	470E	mov     a, port_A_config[0]
-0073	4694	andm    a, ra
+				L0048:
+0048	0F01	mov     a, 1H
+0049	4094	mov     ra, a
+004A	50A6	sz      filter[0]
+004B	284D	jmp     L004D
+004C	284E	jmp     L004E
+				L004D:
+004D	5F14	clr     ra
+				L004E:
+004E	470E	mov     a, port_A_config[0]
+004F	4694	andm    a, ra
 				;45						port_A_config = port_A_config | (filter & direction);
-0074	4724	mov     a, direction[0]
-0075	4695	andm    a, rb
-0076	4714	mov     a, ra
-0077	4595	orm     a, rb
-0078	4715	mov     a, rb
-0079	408E	mov     port_A_config[0], a
+0050	4724	mov     a, direction[0]
+0051	4695	andm    a, rb
+0052	4714	mov     a, ra
+0053	4595	orm     a, rb
+0054	4715	mov     a, rb
+0055	408E	mov     port_A_config[0], a
 				;46						break;
 				;47				}
 				;48				_pac = port_A_config;
-007A	4715	mov     a, rb
-007B	009B	mov     PAC, a
+0056	4715	mov     a, rb
+0057	009B	mov     PAC, a
 				;49				break;
-007C	28C0	jmp     L00C0
+0058	289C	jmp     L009C
 				;50			case HT66FB550_MCU_IO_PB:
 				;51				switch(pin)
 				;52				{
@@ -730,31 +713,31 @@
 				;55						break;
 				;56					default:
 				;57						port_B_config = port_B_config & (!filter);
-				L007D:
-007D	0F01	mov     a, 1H
-007E	4094	mov     ra, a
-007F	50A6	sz      filter[0]
-0080	2882	jmp     L0082
-0081	2883	jmp     L0083
-				L0082:
-0082	5F14	clr     ra
-				L0083:
-0083	470D	mov     a, port_B_config[0]
-0084	4694	andm    a, ra
+				L0059:
+0059	0F01	mov     a, 1H
+005A	4094	mov     ra, a
+005B	50A6	sz      filter[0]
+005C	285E	jmp     L005E
+005D	285F	jmp     L005F
+				L005E:
+005E	5F14	clr     ra
+				L005F:
+005F	470D	mov     a, port_B_config[0]
+0060	4694	andm    a, ra
 				;58						port_B_config = port_B_config | (filter & direction);
-0085	4724	mov     a, direction[0]
-0086	4695	andm    a, rb
-0087	4714	mov     a, ra
-0088	4595	orm     a, rb
-0089	4715	mov     a, rb
-008A	408D	mov     port_B_config[0], a
+0061	4724	mov     a, direction[0]
+0062	4695	andm    a, rb
+0063	4714	mov     a, ra
+0064	4595	orm     a, rb
+0065	4715	mov     a, rb
+0066	408D	mov     port_B_config[0], a
 				;59						break;
 				;60				}
 				;61				_pbc = port_B_config;
-008B	4715	mov     a, rb
-008C	00A3	mov     PBC, a
+0067	4715	mov     a, rb
+0068	00A3	mov     PBC, a
 				;62				break;
-008D	28C0	jmp     L00C0
+0069	289C	jmp     L009C
 				;63			case HT66FB550_MCU_IO_PC:
 				;64				switch(pin)
 				;65				{
@@ -763,31 +746,31 @@
 				;68						break;
 				;69					default:
 				;70						port_C_config = port_C_config & (!filter);
-				L008E:
-008E	0F01	mov     a, 1H
-008F	4094	mov     ra, a
-0090	50A6	sz      filter[0]
-0091	2893	jmp     L0093
-0092	2894	jmp     L0094
-				L0093:
-0093	5F14	clr     ra
-				L0094:
-0094	470C	mov     a, port_C_config[0]
-0095	4694	andm    a, ra
+				L006A:
+006A	0F01	mov     a, 1H
+006B	4094	mov     ra, a
+006C	50A6	sz      filter[0]
+006D	286F	jmp     L006F
+006E	2870	jmp     L0070
+				L006F:
+006F	5F14	clr     ra
+				L0070:
+0070	470C	mov     a, port_C_config[0]
+0071	4694	andm    a, ra
 				;71						port_C_config = port_C_config | (filter & direction);
-0096	4724	mov     a, direction[0]
-0097	4695	andm    a, rb
-0098	4714	mov     a, ra
-0099	4595	orm     a, rb
-009A	4715	mov     a, rb
-009B	408C	mov     port_C_config[0], a
+0072	4724	mov     a, direction[0]
+0073	4695	andm    a, rb
+0074	4714	mov     a, ra
+0075	4595	orm     a, rb
+0076	4715	mov     a, rb
+0077	408C	mov     port_C_config[0], a
 				;72						break;
 				;73				}
 				;74				_pcc = port_C_config;
-009C	4715	mov     a, rb
-009D	00A5	mov     PCC, a
+0078	4715	mov     a, rb
+0079	00A5	mov     PCC, a
 				;75				break;
-009E	28C0	jmp     L00C0
+007A	289C	jmp     L009C
 				;76			case HT66FB550_MCU_IO_PD:
 				;77				switch(pin)
 				;78				{
@@ -796,31 +779,31 @@
 				;81						break;
 				;82					default:
 				;83						port_D_config = port_D_config & (!filter);
-				L009F:
-009F	0F01	mov     a, 1H
-00A0	4094	mov     ra, a
-00A1	50A6	sz      filter[0]
-00A2	28A4	jmp     L00A4
-00A3	28A5	jmp     L00A5
-				L00A4:
-00A4	5F14	clr     ra
-				L00A5:
-00A5	470B	mov     a, port_D_config[0]
-00A6	4694	andm    a, ra
+				L007B:
+007B	0F01	mov     a, 1H
+007C	4094	mov     ra, a
+007D	50A6	sz      filter[0]
+007E	2880	jmp     L0080
+007F	2881	jmp     L0081
+				L0080:
+0080	5F14	clr     ra
+				L0081:
+0081	470B	mov     a, port_D_config[0]
+0082	4694	andm    a, ra
 				;84						port_D_config = port_D_config | (filter & direction);
-00A7	4724	mov     a, direction[0]
-00A8	4695	andm    a, rb
-00A9	4714	mov     a, ra
-00AA	4595	orm     a, rb
-00AB	4715	mov     a, rb
-00AC	408B	mov     port_D_config[0], a
+0083	4724	mov     a, direction[0]
+0084	4695	andm    a, rb
+0085	4714	mov     a, ra
+0086	4595	orm     a, rb
+0087	4715	mov     a, rb
+0088	408B	mov     port_D_config[0], a
 				;85						break;
 				;86				}
 				;87				_pdc = port_D_config;
-00AD	4715	mov     a, rb
-00AE	00A7	mov     PDC, a
+0089	4715	mov     a, rb
+008A	00A7	mov     PDC, a
 				;88				break;
-00AF	28C0	jmp     L00C0
+008B	289C	jmp     L009C
 				;89			case HT66FB550_MCU_IO_PE:
 				;90				switch(pin)
 				;91				{
@@ -829,31 +812,31 @@
 				;94						break;
 				;95					default:
 				;96						port_E_config = port_E_config & (!filter);
-				L00B0:
-00B0	0F01	mov     a, 1H
-00B1	4094	mov     ra, a
-00B2	50A6	sz      filter[0]
-00B3	28B5	jmp     L00B5
-00B4	28B6	jmp     L00B6
-				L00B5:
-00B5	5F14	clr     ra
-				L00B6:
-00B6	470A	mov     a, port_E_config[0]
-00B7	4694	andm    a, ra
+				L008C:
+008C	0F01	mov     a, 1H
+008D	4094	mov     ra, a
+008E	50A6	sz      filter[0]
+008F	2891	jmp     L0091
+0090	2892	jmp     L0092
+				L0091:
+0091	5F14	clr     ra
+				L0092:
+0092	470A	mov     a, port_E_config[0]
+0093	4694	andm    a, ra
 				;97						port_E_config = port_E_config | (filter & direction);
-00B8	4724	mov     a, direction[0]
-00B9	4695	andm    a, rb
-00BA	4714	mov     a, ra
-00BB	4595	orm     a, rb
-00BC	4715	mov     a, rb
-00BD	408A	mov     port_E_config[0], a
+0094	4724	mov     a, direction[0]
+0095	4695	andm    a, rb
+0096	4714	mov     a, ra
+0097	4595	orm     a, rb
+0098	4715	mov     a, rb
+0099	408A	mov     port_E_config[0], a
 				;98						break;
 				;99				}
 				;100				_pec = port_E_config;
-00BE	4715	mov     a, rb
-00BF	00A9	mov     PEC, a
-				L00C0:
-00C0	0003	ret
+009A	4715	mov     a, rb
+009B	00A9	mov     PEC, a
+				L009C:
+009C	0003	ret
 				;101				break;
 				;102		}	
 				;103	}
@@ -862,43 +845,43 @@
 				;106	{
 				_HT66FB550_IO_Data:
 				_HT66FB550_IO_Data:
-00C1	4094	mov     ra, a
+009D	4094	mov     ra, a
 				;107		char filter=0x01;
 				;108		filter = filter << pin;
-00C2	0F01	mov     a, 1H
-00C3	4095	mov     rb, a
-00C4	5F16	clr     rc
-00C5	5423	inca    pin[0]
-00C6	28CA	jmp     L00CA
-				L00C7:
-00C7	340A	clr     C
-00C8	5A95	rlc     rb
-00C9	5A96	rlc     rc
-				L00CA:
-00CA	1785	sdz     ACC
-00CB	28C7	jmp     L00C7
-00CC	4715	mov     a, rb
-00CD	40A6	mov     filter[0], a
+009E	0F01	mov     a, 1H
+009F	4095	mov     rb, a
+00A0	5F16	clr     rc
+00A1	5423	inca    pin[0]
+00A2	28A6	jmp     L00A6
+				L00A3:
+00A3	340A	clr     C
+00A4	5A95	rlc     rb
+00A5	5A96	rlc     rc
+				L00A6:
+00A6	1785	sdz     ACC
+00A7	28A3	jmp     L00A3
+00A8	4715	mov     a, rb
+00A9	40A6	mov     filter[0], a
 				;109		switch(port)
-00CE	4714	mov     a, ra
-00CF	0A00	sub     a, 0H
-00D0	3D0A	sz      Z
-00D1	28E1	jmp     L00E1
-00D2	0A01	sub     a, 1H
-00D3	3D0A	sz      Z
-00D4	28F2	jmp     L00F2
-00D5	4714	mov     a, ra
-00D6	0A02	sub     a, 2H
-00D7	3D0A	sz      Z
-00D8	2903	jmp     L0103
-00D9	0A01	sub     a, 1H
-00DA	3D0A	sz      Z
-00DB	2914	jmp     L0114
-00DC	4714	mov     a, ra
-00DD	0A04	sub     a, 4H
-00DE	390A	snz     Z
-00DF	2935	jmp     L0135
-00E0	2925	jmp     L0125
+00AA	4714	mov     a, ra
+00AB	0A00	sub     a, 0H
+00AC	3D0A	sz      Z
+00AD	28BD	jmp     L00BD
+00AE	0A01	sub     a, 1H
+00AF	3D0A	sz      Z
+00B0	28CE	jmp     L00CE
+00B1	4714	mov     a, ra
+00B2	0A02	sub     a, 2H
+00B3	3D0A	sz      Z
+00B4	28DF	jmp     L00DF
+00B5	0A01	sub     a, 1H
+00B6	3D0A	sz      Z
+00B7	28F0	jmp     L00F0
+00B8	4714	mov     a, ra
+00B9	0A04	sub     a, 4H
+00BA	390A	snz     Z
+00BB	2911	jmp     L0111
+00BC	2901	jmp     L0101
 				;110		{
 				;111			case HT66FB550_MCU_IO_PA:
 				;112				switch(pin)
@@ -908,31 +891,31 @@
 				;116						break;
 				;117					default:
 				;118						port_A_data = port_A_data & (!filter);
-				L00E1:
-00E1	0F01	mov     a, 1H
-00E2	4094	mov     ra, a
-00E3	50A6	sz      filter[0]
-00E4	28E6	jmp     L00E6
-00E5	28E7	jmp     L00E7
-				L00E6:
-00E6	5F14	clr     ra
-				L00E7:
-00E7	4709	mov     a, port_A_data[0]
-00E8	4694	andm    a, ra
+				L00BD:
+00BD	0F01	mov     a, 1H
+00BE	4094	mov     ra, a
+00BF	50A6	sz      filter[0]
+00C0	28C2	jmp     L00C2
+00C1	28C3	jmp     L00C3
+				L00C2:
+00C2	5F14	clr     ra
+				L00C3:
+00C3	4709	mov     a, port_A_data[0]
+00C4	4694	andm    a, ra
 				;119						port_A_data = port_A_data | (filter & data);
-00E9	4724	mov     a, data[0]
-00EA	4695	andm    a, rb
-00EB	4714	mov     a, ra
-00EC	4595	orm     a, rb
-00ED	4715	mov     a, rb
-00EE	4089	mov     port_A_data[0], a
+00C5	4724	mov     a, data[0]
+00C6	4695	andm    a, rb
+00C7	4714	mov     a, ra
+00C8	4595	orm     a, rb
+00C9	4715	mov     a, rb
+00CA	4089	mov     port_A_data[0], a
 				;120						break;
 				;121				}
 				;122				_pa = port_A_data;
-00EF	4715	mov     a, rb
-00F0	009A	mov     PA, a
+00CB	4715	mov     a, rb
+00CC	009A	mov     PA, a
 				;123				break;
-00F1	2935	jmp     L0135
+00CD	2911	jmp     L0111
 				;124			case HT66FB550_MCU_IO_PB:
 				;125				switch(pin)
 				;126				{
@@ -941,31 +924,31 @@
 				;129						break;
 				;130					default:
 				;131						port_B_data = port_B_data & (!filter);
-				L00F2:
-00F2	0F01	mov     a, 1H
-00F3	4094	mov     ra, a
-00F4	50A6	sz      filter[0]
-00F5	28F7	jmp     L00F7
-00F6	28F8	jmp     L00F8
-				L00F7:
-00F7	5F14	clr     ra
-				L00F8:
-00F8	4708	mov     a, port_B_data[0]
-00F9	4694	andm    a, ra
+				L00CE:
+00CE	0F01	mov     a, 1H
+00CF	4094	mov     ra, a
+00D0	50A6	sz      filter[0]
+00D1	28D3	jmp     L00D3
+00D2	28D4	jmp     L00D4
+				L00D3:
+00D3	5F14	clr     ra
+				L00D4:
+00D4	4708	mov     a, port_B_data[0]
+00D5	4694	andm    a, ra
 				;132						port_B_data = port_B_data | (filter & data);
-00FA	4724	mov     a, data[0]
-00FB	4695	andm    a, rb
-00FC	4714	mov     a, ra
-00FD	4595	orm     a, rb
-00FE	4715	mov     a, rb
-00FF	4088	mov     port_B_data[0], a
+00D6	4724	mov     a, data[0]
+00D7	4695	andm    a, rb
+00D8	4714	mov     a, ra
+00D9	4595	orm     a, rb
+00DA	4715	mov     a, rb
+00DB	4088	mov     port_B_data[0], a
 				;133						break;
 				;134				}
 				;135				_pb = port_B_data;
-0100	4715	mov     a, rb
-0101	00A2	mov     PB, a
+00DC	4715	mov     a, rb
+00DD	00A2	mov     PB, a
 				;136				break;
-0102	2935	jmp     L0135
+00DE	2911	jmp     L0111
 				;137			case HT66FB550_MCU_IO_PC:
 				;138				switch(pin)
 				;139				{
@@ -974,31 +957,31 @@
 				;142						break;
 				;143					default:
 				;144						port_C_data = port_C_data & (!filter);
-				L0103:
-0103	0F01	mov     a, 1H
-0104	4094	mov     ra, a
-0105	50A6	sz      filter[0]
-0106	2908	jmp     L0108
-0107	2909	jmp     L0109
-				L0108:
-0108	5F14	clr     ra
-				L0109:
-0109	4707	mov     a, port_C_data[0]
-010A	4694	andm    a, ra
+				L00DF:
+00DF	0F01	mov     a, 1H
+00E0	4094	mov     ra, a
+00E1	50A6	sz      filter[0]
+00E2	28E4	jmp     L00E4
+00E3	28E5	jmp     L00E5
+				L00E4:
+00E4	5F14	clr     ra
+				L00E5:
+00E5	4707	mov     a, port_C_data[0]
+00E6	4694	andm    a, ra
 				;145						port_C_data = port_C_data | (filter & data);
-010B	4724	mov     a, data[0]
-010C	4695	andm    a, rb
-010D	4714	mov     a, ra
-010E	4595	orm     a, rb
-010F	4715	mov     a, rb
-0110	4087	mov     port_C_data[0], a
+00E7	4724	mov     a, data[0]
+00E8	4695	andm    a, rb
+00E9	4714	mov     a, ra
+00EA	4595	orm     a, rb
+00EB	4715	mov     a, rb
+00EC	4087	mov     port_C_data[0], a
 				;146						break;
 				;147				}
 				;148				_pc = port_C_data;
-0111	4715	mov     a, rb
-0112	00A4	mov     PC, a
+00ED	4715	mov     a, rb
+00EE	00A4	mov     PC, a
 				;149				break;
-0113	2935	jmp     L0135
+00EF	2911	jmp     L0111
 				;150			case HT66FB550_MCU_IO_PD:
 				;151				switch(pin)
 				;152				{
@@ -1007,31 +990,31 @@
 				;155						break;
 				;156					default:
 				;157						port_D_data = port_D_data & (!filter);
-				L0114:
-0114	0F01	mov     a, 1H
-0115	4094	mov     ra, a
-0116	50A6	sz      filter[0]
-0117	2919	jmp     L0119
-0118	291A	jmp     L011A
-				L0119:
-0119	5F14	clr     ra
-				L011A:
-011A	4706	mov     a, port_D_data[0]
-011B	4694	andm    a, ra
+				L00F0:
+00F0	0F01	mov     a, 1H
+00F1	4094	mov     ra, a
+00F2	50A6	sz      filter[0]
+00F3	28F5	jmp     L00F5
+00F4	28F6	jmp     L00F6
+				L00F5:
+00F5	5F14	clr     ra
+				L00F6:
+00F6	4706	mov     a, port_D_data[0]
+00F7	4694	andm    a, ra
 				;158						port_D_data = port_D_data | (filter & data);
-011C	4724	mov     a, data[0]
-011D	4695	andm    a, rb
-011E	4714	mov     a, ra
-011F	4595	orm     a, rb
-0120	4715	mov     a, rb
-0121	4086	mov     port_D_data[0], a
+00F8	4724	mov     a, data[0]
+00F9	4695	andm    a, rb
+00FA	4714	mov     a, ra
+00FB	4595	orm     a, rb
+00FC	4715	mov     a, rb
+00FD	4086	mov     port_D_data[0], a
 				;159						break;
 				;160				}
 				;161				_pd = port_D_data;
-0122	4715	mov     a, rb
-0123	00A6	mov     PD, a
+00FE	4715	mov     a, rb
+00FF	00A6	mov     PD, a
 				;162				break;
-0124	2935	jmp     L0135
+0100	2911	jmp     L0111
 				;163			case HT66FB550_MCU_IO_PE:
 				;164				switch(pin)
 				;165				{
@@ -1040,31 +1023,31 @@
 				;168						break;
 				;169					default:
 				;170						port_E_data = port_E_data & (!filter);
-				L0125:
-0125	0F01	mov     a, 1H
-0126	4094	mov     ra, a
-0127	50A6	sz      filter[0]
-0128	292A	jmp     L012A
-0129	292B	jmp     L012B
-				L012A:
-012A	5F14	clr     ra
-				L012B:
-012B	4705	mov     a, port_E_data[0]
-012C	4694	andm    a, ra
+				L0101:
+0101	0F01	mov     a, 1H
+0102	4094	mov     ra, a
+0103	50A6	sz      filter[0]
+0104	2906	jmp     L0106
+0105	2907	jmp     L0107
+				L0106:
+0106	5F14	clr     ra
+				L0107:
+0107	4705	mov     a, port_E_data[0]
+0108	4694	andm    a, ra
 				;171						port_E_data = port_E_data | (filter & data);
-012D	4724	mov     a, data[0]
-012E	4695	andm    a, rb
-012F	4714	mov     a, ra
-0130	4595	orm     a, rb
-0131	4715	mov     a, rb
-0132	4085	mov     port_E_data[0], a
+0109	4724	mov     a, data[0]
+010A	4695	andm    a, rb
+010B	4714	mov     a, ra
+010C	4595	orm     a, rb
+010D	4715	mov     a, rb
+010E	4085	mov     port_E_data[0], a
 				;172						break;
 				;173				}
 				;174				_pe = port_E_data;
-0133	4715	mov     a, rb
-0134	00A8	mov     PE, a
-				L0135:
-0135	0003	ret
+010F	4715	mov     a, rb
+0110	00A8	mov     PE, a
+				L0111:
+0111	0003	ret
 				;175				break;
 				;176		}		
 				;177	}
@@ -1287,5 +1270,4 @@
 				data DB DUP (?) ; data
 				port DB DUP (?) ; port
 				filter DB DUP (?) ; filter
-				a DB 2 DUP (?) ; a
 				uart_buf DB DUP (?) ; uart_buf

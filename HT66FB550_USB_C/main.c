@@ -25,6 +25,7 @@ void main()
 	UART_Put_Char(0x41);
 	UART_Put_Char('\n');
 	UART_Start();
-	for(a=0; a<10000; a++);
+	//for(a=0; a<10000; a++);
+	//while(1);
 	goto loop;
 }
