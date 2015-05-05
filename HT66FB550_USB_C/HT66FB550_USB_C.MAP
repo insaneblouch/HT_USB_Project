@@ -13,18 +13,18 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      Bank    Start     End      Length     Class    AvgIns    Name
      00h     0000h     0000h    0001h      CODE               @code (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\MAIN.OBJ)
      00h     0001h     0001h    0001h      CODE               @start (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\MAIN.OBJ)
-     00h     0002h     0018h    0017h      CODE               _main (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\MAIN.OBJ)
-     00h     0019h     0020h    0008h      CODE               _HT66FB550_MCU_Init (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_MCU.OBJ)
+     00h     0002h     0009h    0008h      CODE               _HT66FB550_MCU_Init (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_MCU.OBJ)
+     00h     000ah     0017h    000eh      CODE               _UART_Init (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_UART.OBJ)
+     00h     0018h     001ch    0005h      CODE               _CROM2PROM (CROM2PROM)
      00h     0024h     0027h    0004h      CODE               @ISR_timer3_code (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_UART.OBJ)
-     00h     0028h     009ch    0075h      CODE               _HT66FB550_IO_DIR (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_IO.OBJ)
-     00h     009dh     0111h    0075h      CODE               _HT66FB550_IO_Data (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_IO.OBJ)
-     00h     0112h     013ch    002bh      CODE               _HT66FB550_IO_INIT (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_IO.OBJ)
-     00h     013dh     01b8h    007ch      CODE               _UART_ISR (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_UART.OBJ)
-     00h     01b9h     01d7h    001fh      CODE               _ISR_timer3 (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_UART.OBJ)
-     00h     01d8h     01e5h    000eh      CODE               _UART_Init (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_UART.OBJ)
-     00h     01e6h     0224h    003fh      CODE               _UART_Start (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_UART.OBJ)
-     00h     0225h     0249h    0025h      CODE               _UART_Put_Char (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_UART.OBJ)
-     00h     024ah     024eh    0005h      CODE               _CROM2PROM (CROM2PROM)
+     00h     0028h     05c7h    05a0h      CODE               _main (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\MAIN.OBJ)
+     00h     05c8h     063ch    0075h      CODE               _HT66FB550_IO_DIR (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_IO.OBJ)
+     00h     063dh     06b1h    0075h      CODE               _HT66FB550_IO_Data (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_IO.OBJ)
+     00h     06b2h     06dch    002bh      CODE               _HT66FB550_IO_INIT (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_IO.OBJ)
+     00h     06ddh     0758h    007ch      CODE               _UART_ISR (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_UART.OBJ)
+     00h     0759h     0777h    001fh      CODE               _ISR_timer3 (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_UART.OBJ)
+     00h     0778h     07b6h    003fh      CODE               _UART_Start (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_UART.OBJ)
+     00h     07b7h     07dbh    0025h      CODE               _UART_Put_Char (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_UART.OBJ)
      00h     0080h     008eh    000fh      DATA     2         @HCCINIT0 (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_IO.OBJ)
      00h     008fh     0093h    0005h      DATA     6.6       @HCCINIT0 (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_UART.OBJ)
      00h     0094h     0094h    0001h      DATA     91        @data_ra (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
@@ -46,8 +46,8 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      Local Sections
 
      Bank    Start     End      Length     Class    AvgIns    Name
-     00h     00a7h     00a7h    0000h      LOCAL    0         @dummy (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\MAIN.OBJ)
-     00h     00a7h     00a7h    0000h      LOCAL    0         _main (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\MAIN.OBJ)
+     00h     00a9h     00a9h    0000h      LOCAL    0         @dummy (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\MAIN.OBJ)
+     00h     00a7h     00a8h    0002h      LOCAL    300       _main (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\MAIN.OBJ)
      00h     00a3h     00a3h    0000h      LOCAL    0         _HT66FB550_MCU_Init (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_MCU.OBJ)
      00h     00a7h     00a7h    0000h      LOCAL    0         _HT66FB550_IO_INIT (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_IO.OBJ)
      00h     00a3h     00a6h    0004h      LOCAL    5.5       _HT66FB550_IO_DIR (C:\Users\james\Google 雲端硬碟\自製版子\holtek\GitHub\HT_USB_Project\HT66FB550_USB_C\HT66FB550_IO.OBJ)
@@ -62,19 +62,19 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
 
      Public Symbols Information
      Address            Public by Name
-     024bh              _Crom2Prom
-     024ah              _Crom2PromNext
-     0028h              _HT66FB550_IO_DIR
+     0019h              _Crom2Prom
+     0018h              _Crom2PromNext
+     05c8h              _HT66FB550_IO_DIR
      00a3h              _HT66FB550_IO_DIR_2
-     009dh              _HT66FB550_IO_Data
-     0112h              _HT66FB550_IO_INIT
-     0019h              _HT66FB550_MCU_Init
-     01b9h              _ISR_timer3
-     013dh              _UART_ISR
-     01d8h              _UART_Init
-     0225h              _UART_Put_Char
-     01e6h              _UART_Start
-     0002h              _main
+     063dh              _HT66FB550_IO_Data
+     06b2h              _HT66FB550_IO_INIT
+     0002h              _HT66FB550_MCU_Init
+     0759h              _ISR_timer3
+     06ddh              _UART_ISR
+     000ah              _UART_Init
+     07b7h              _UART_Put_Char
+     0778h              _UART_Start
+     0028h              _main
      008eh              _port_A_config
      0089h              _port_A_data
      0084h              _port_A_pull_high
@@ -112,9 +112,11 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      009ah              rd24
 
      Address            Public by Value
-     0002h              _main
-     0019h              _HT66FB550_MCU_Init
-     0028h              _HT66FB550_IO_DIR
+     0002h              _HT66FB550_MCU_Init
+     000ah              _UART_Init
+     0018h              _Crom2PromNext
+     0019h              _Crom2Prom
+     0028h              _main
      0080h              _port_E_pull_high
      0081h              _port_D_pull_high
      0082h              _port_C_pull_high
@@ -144,7 +146,6 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      009ah              rd24
      009bh              rc24
      009ch              r124
-     009dh              _HT66FB550_IO_Data
      009dh              r224
      009eh              r324
      009fh              r424
@@ -152,29 +153,28 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      00a1h              r624
      00a2h              r724
      00a3h              _HT66FB550_IO_DIR_2
-     0112h              _HT66FB550_IO_INIT
-     013dh              _UART_ISR
-     01b9h              _ISR_timer3
-     01d8h              _UART_Init
-     01e6h              _UART_Start
-     0225h              _UART_Put_Char
-     024ah              _Crom2PromNext
-     024bh              _Crom2Prom
+     05c8h              _HT66FB550_IO_DIR
+     063dh              _HT66FB550_IO_Data
+     06b2h              _HT66FB550_IO_INIT
+     06ddh              _UART_ISR
+     0759h              _ISR_timer3
+     0778h              _UART_Start
+     07b7h              _UART_Put_Char
 
 
 ROM Usage Statistics
      Size      Used     Percentage
-     2000h     024ch    7%
+     2000h     07d5h    24%
 
 RAM Usage Statistics
     Bank      Size      Used     Percentage
-     00h       0080h     0027h    30%
+     00h       0080h     0029h    32%
      01h       0080h     0000h    0%
      02h       0080h     0000h    0%
      03h       0080h     0000h    0%
      04h       0080h     0064h    78%
      05h       0080h     0000h    0%
-     Total     0300h     008bh    18%
+     Total     0300h     008dh    18%
 
 Use Stack Count
 _main: 2
