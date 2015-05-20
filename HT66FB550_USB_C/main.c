@@ -12,85 +12,17 @@ void main()
 	//_acer0 = 0;
 	//_acer1 = 0;
 	//_pbc = 0;
-	UART_Init();
+	//UART_Init();
 	
-	_pb1 = 1;
+	
 	loop:
-	for(a=0; a<10000; a++)
-	UART_Put_Char(0x42);
-	UART_Put_Char(0x42);
-	UART_Put_Char(0x42);
-	UART_Put_Char(0x43);
-	UART_Put_Char(0x42);
-	UART_Put_Char(0x41);
-	UART_Put_Char(0x41);
-	UART_Put_Char('\n');
-	UART_Start();
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++);
-	for(a=0; a<10000; a++);for(a=0; a<10000; a++)
-	UART_Put_Char(0x41);
-	UART_Put_Char(0x41);
-	UART_Put_Char(0x43);
-	UART_Put_Char(0x43);
-	UART_Put_Char(0x31);
-	UART_Put_Char(0x31);
-	UART_Put_Char(0x32);
-	UART_Put_Char('\n');
-	UART_Start();
-	while(1);
+	
+	HT66FB550_Delay_10us();
+	_pb1 = 0;
+	HT66FB550_Delay_10us();
+	_pb1 = 1;
+	HT66FB550_Delay_10us();
+	_pb1 = 0;
+	
 	goto loop;
 }
